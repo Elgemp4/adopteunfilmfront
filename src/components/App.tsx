@@ -1,11 +1,13 @@
-import LoginForm from "./LoginForm.tsx";
+import LoginForm from './LoginForm';
+import ThemeToggleButton from './ThemeToggleButton.tsx';
+import { DarkModeProvider } from "../contexts/DarkModeContextProvider.tsx";
 
-function App() {
-  return (
-    <>
-      <LoginForm> </LoginForm>
-    </>
-  )
+
+export default function App() {
+    return (
+        <DarkModeProvider>
+            <ThemeToggleButton/>
+            <LoginForm />
+        </DarkModeProvider>
+    );
 }
-
-export default App
