@@ -1,20 +1,17 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-export default function LoginForm() {
+export default function RegisterForm() {
     const [formData, setFormData] = useState({
-        username: '',
-        password: '',
-        rememberMe: false
+        firstName: '',
+        lastName: '',
+        birthDate: ''
     });
 
-    const navigate = useNavigate();
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: type === 'checkbox' ? checked : value
+            [name]: value
         });
     };
 
@@ -22,11 +19,7 @@ export default function LoginForm() {
         e.preventDefault();
         console.log('Form submitted:', formData);
         // Simulate a successful submission
-        alert('Login successful!');
-    };
-
-    const handleRegister = () => {
-        navigate('/register');
+        alert('Form submitted successfully!');
     };
 
     return (
@@ -34,11 +27,11 @@ export default function LoginForm() {
             <form className="form-container" onSubmit={handleSubmit}>
                 <div className="input-container">
                     <label className="label">
-                        Nom d'utilisateur:
+                        Prénom:
                         <input
                             type="text"
-                            name="username"
-                            value={formData.username}
+                            name="firstName"
+                            value={formData.firstName}
                             onChange={handleChange}
                             className="input"
                         />
@@ -46,11 +39,11 @@ export default function LoginForm() {
                 </div>
                 <div className="input-container">
                     <label className="label">
-                        Mot de passe:
+                        Nom:
                         <input
-                            type="password"
-                            name="password"
-                            value={formData.password}
+                            type="text"
+                            name="lastName"
+                            value={formData.lastName}
                             onChange={handleChange}
                             className="input"
                         />
@@ -58,22 +51,19 @@ export default function LoginForm() {
                 </div>
                 <div className="input-container">
                     <label className="label">
+                        Date de naissance:
                         <input
-                            type="checkbox"
-                            name="rememberMe"
-                            checked={formData.rememberMe}
+                            type="date"
+                            name="birthDate"
+                            value={formData.birthDate}
                             onChange={handleChange}
-                            className="checkbox"
+                            className="input"
                         />
-                        Rester connecté
                     </label>
                 </div>
                 <div className="button-container">
                     <button type="submit" className="button">
-                        Se connecter
-                    </button>
-                    <button type="button" className="button" onClick={handleRegister}>
-                        S'enregistrer
+                        Suivant
                     </button>
                 </div>
             </form>
