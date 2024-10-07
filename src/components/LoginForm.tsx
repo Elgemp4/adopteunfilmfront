@@ -18,20 +18,20 @@ export default function LoginForm() {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleLoginSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Form submitted:', formData);
         // Simulate a successful submission
         alert('Login successful!');
     };
 
-    const handleRegister = () => {
+    const handleRegisterSubmit = () => {
         navigate('/register');
     };
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <form className="form-container" onSubmit={handleSubmit}>
+            <form className="form-container" onSubmit={handleLoginSubmit}>
                 <div className="input-container">
                     <label className="label">
                         Nom d'utilisateur:
@@ -72,7 +72,7 @@ export default function LoginForm() {
                     <button type="submit" className="button">
                         Se connecter
                     </button>
-                    <button type="button" className="button" onClick={handleRegister}>
+                    <button type="submit" className="button" onClick={handleRegisterSubmit}>
                         S'enregistrer
                     </button>
                 </div>

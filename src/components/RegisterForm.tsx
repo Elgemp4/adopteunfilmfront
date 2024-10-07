@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function RegisterForm() {
     const [formData, setFormData] = useState({
@@ -6,6 +7,8 @@ export default function RegisterForm() {
         lastName: '',
         birthDate: ''
     });
+
+    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -21,6 +24,10 @@ export default function RegisterForm() {
         // Simulate a successful submission
         alert('Form submitted successfully!');
     };
+
+    const handleRegisterSubmit = () => {
+        navigate('/providers');
+    }
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -62,7 +69,7 @@ export default function RegisterForm() {
                     </label>
                 </div>
                 <div className="button-container">
-                    <button type="submit" className="button">
+                    <button type="submit" className="button" onClick={handleRegisterSubmit} >
                         Suivant
                     </button>
                 </div>
