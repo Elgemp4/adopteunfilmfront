@@ -41,5 +41,38 @@ body
       .button
         @apply bg-blue-700 hover:bg-blue-900
 
+    .provider-card
+      @apply border-gray-700
+
+    .provider-card.selected
+      @apply border-blue-700
+
+
 .theme-toggle-button
   @apply p-2 bg-gray-300 dark:bg-gray-600 text-black dark:text-white rounded fixed top-4 right-4
+
+
+
+.user-providers
+  @apply text-center
+
+.providers-grid
+  @apply grid grid-cols-2 gap-4 my-8
+
+.provider-card
+  @apply border border-gray-300 rounded-full text-center cursor-pointer transition-transform duration-200 flex items-center justify-center
+
+.provider-card.selected
+  @apply border-blue-500 border-2 transform scale-110
+
+.provider-logo-container
+  @apply w-16 h-16 flex items-center justify-center overflow-hidden rounded-full
+
+.provider-logo
+  @apply w-full h-full object-cover
+
+.validate-button
+  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition-colors duration-200
+
+.validate-button:hover
+  @apply bg-blue-700
