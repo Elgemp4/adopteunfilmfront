@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function LoginForm() {
     const [formData, setFormData] = useState({
-        username: '',
+        email: '',
         password: '',
         rememberMe: false
     });
@@ -34,11 +34,11 @@ export default function LoginForm() {
             <form className="form-container" onSubmit={handleLoginSubmit}>
                 <div className="input-container">
                     <label className="label">
-                        Nom d'utilisateur:
+                        Adresse email:
                         <input
-                            type="text"
-                            name="username"
-                            value={formData.username}
+                            type="email"
+                            name="email"
+                            value={formData.email}
                             onChange={handleChange}
                             className="input"
                         />
