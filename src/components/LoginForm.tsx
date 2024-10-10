@@ -1,36 +1,39 @@
-import { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function LoginForm() {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-        rememberMe: false
-    });
-
+    const { email, setEmail, password, setPassword } = useAuth();
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, type, checked } = e.target;
-        setFormData({
-            ...formData,
-            [name]: type === 'checkbox' ? checked : value
-        });
+        const { name, value } = e.target;
+        if (name === 'email') setEmail(value);
+        if (name === 'password') setPassword(value);
     };
 
-    const handleLoginSubmit = (e: React.FormEvent) => {
+    const handleLoginSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
-        // Simulate a successful submission
-        alert('Login successful!');
+        try {
+            const response = await axios.post('http://localhost:3500/login', {
+                email,
+                password
+            });
+            console.log('Login successful:', response.data);
+            alert('Connexion réussie!');
+            navigate('/film/1');
+        } catch (error) {
+            console.error('Error logging in:', error);
+            alert('Erreur de connexion. Vérifiez votre email et votre mot de passe.');
+        }
     };
 
-    const handleRegisterSubmit = () => {
+    const handleRegisterClick = (e: React.FormEvent) => {
+        e.preventDefault();
         navigate('/register');
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <form className="form-container" onSubmit={handleLoginSubmit}>
                 <div className="input-container">
                     <label className="label">
@@ -38,7 +41,7 @@ export default function LoginForm() {
                         <input
                             type="email"
                             name="email"
-                            value={formData.email}
+                            value={email}
                             onChange={handleChange}
                             className="input"
                         />
@@ -50,7 +53,7 @@ export default function LoginForm() {
                         <input
                             type="password"
                             name="password"
-                            value={formData.password}
+                            value={password}
                             onChange={handleChange}
                             className="input"
                         />
@@ -61,7 +64,6 @@ export default function LoginForm() {
                         <input
                             type="checkbox"
                             name="rememberMe"
-                            checked={formData.rememberMe}
                             onChange={handleChange}
                             className="checkbox"
                         />
@@ -72,11 +74,10 @@ export default function LoginForm() {
                     <button type="submit" className="button">
                         Se connecter
                     </button>
-                    <button type="submit" className="button" onClick={handleRegisterSubmit}>
+                    <button type="button" className="button" onClick={handleRegisterClick}>
                         S'enregistrer
                     </button>
                 </div>
             </form>
-        </div>
     );
 }

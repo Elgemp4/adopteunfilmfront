@@ -1,12 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import axios from 'axios';
 
 export default function RegisterForm() {
+    const { email, password } = useAuth();
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
-        birthDate: ''
+        birthDate: '',
+        email: '',
+        password: ''
     });
+
+    useEffect(() => {
+        setFormData((prevData) => ({
+            ...prevData,
+            email: email,
+            password: password
+        }));
+    }, [email, password]);
 
     const navigate = useNavigate();
 
@@ -18,16 +31,24 @@ export default function RegisterForm() {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
-        // Simulate a successful submission
-        alert('Form submitted successfully!');
+        try {
+            const response = await axios.post('http://localhost:3500/register', {
+                email: formData.email,
+                password: formData.password,
+                firstname: formData.firstName,
+                lastname: formData.lastName,
+                birthdate: formData.birthDate
+            });
+            console.log('Form submitted:', response.data);
+            alert('Inscription réussie!');
+            navigate('/providers');
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            alert('Erreur lors de l\'inscription. Veuillez réessayer.');
+        }
     };
-
-    const handleRegisterSubmit = () => {
-        navigate('/providers');
-    }
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -69,7 +90,7 @@ export default function RegisterForm() {
                     </label>
                 </div>
                 <div className="button-container">
-                    <button type="submit" className="button" onClick={handleRegisterSubmit} >
+                    <button type="submit" className="button">
                         Suivant
                     </button>
                 </div>
