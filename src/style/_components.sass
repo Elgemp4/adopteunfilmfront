@@ -1,0 +1,44 @@
+.form-container
+  @apply bg-white p-4 rounded shadow-md w-full max-w-xl
+
+  .input-container
+    @apply mb-4
+
+    .label
+      @apply block text-gray-700 text-sm font-bold
+
+    .input
+      @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight mt-2 font-normal
+
+      &:focus
+        @apply outline-none ring-2 ring-blue-500
+
+  .button-container
+    @apply flex items-center justify-between
+
+    .button
+      @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition-colors duration-200
+
+.provider-card
+  @apply border border-gray-300 rounded-full text-center cursor-pointer transition-transform duration-200 flex items-center justify-center
+
+.provider-card.selected
+  @apply border-blue-500 border-2 transform scale-110
+
+.provider-logo-container
+  @apply w-20 h-20 flex items-center justify-center overflow-hidden rounded-full
+
+.provider-logo
+  @apply w-full h-full object-cover
+
+.validate-button
+  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition-colors duration-200
+
+.dislike-button, .seen-button, .like-button
+  @apply bg-red-500 text-white font-bold py-2 px-4 rounded cursor-pointer transition-colors duration-200
+  &:hover
+    @apply bg-red-700
+
+.settings-button, .groups-button
+  @apply bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer transition-colors duration-200
+  margin-left: 1rem
