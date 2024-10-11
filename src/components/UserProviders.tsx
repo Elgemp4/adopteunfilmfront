@@ -1,4 +1,4 @@
-import ProviderCard from './ProviderCard';
+import CircularSelector from './CircularSelector';
 import { useNavigate } from 'react-router-dom';
 
 const providers = [
@@ -19,7 +19,7 @@ export default function UserProviders() {
         <div className="user-providers">
             <div className="providers-grid">
                 {providers.map((provider) => (
-                    <ProviderCard
+                    <CircularSelector
                         key={provider.name}
                         name={provider.name}
                         logo={provider.logo}

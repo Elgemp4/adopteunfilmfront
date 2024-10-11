@@ -1,14 +1,14 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import LoginForm from '../components/LoginForm';
-import RegisterForm from '../components/RegisterForm';
+import LoginForm from '../pages/LoginForm';
+import RegisterForm from '../pages/RegisterForm';
 import UserProviders from '../components/UserProviders';
-import UserSettings from '../components/UserSettings';
-import MovieTinder from '../components/MovieTinder';
-import GroupList from '../components/GroupList';
-import GroupCreate from '../components/GroupCreate';
-import GroupJoin from '../components/GroupJoin';
-import GroupSettings from '../components/GroupSettings';
-import GroupMovieChoice from '../components/GroupMovieChoice';
+import UserSettings from '../pages/UserSettings';
+import MovieTinder from '../pages/MovieTinder';
+import GroupList from '../pages/GroupList';
+import GroupCreate from '../pages/GroupCreate';
+import GroupJoin from '../pages/GroupJoin';
+import GroupSettings from '../pages/GroupSettings';
+import GroupMovieChoice from '../pages/GroupMovieChoice';
 
 export default function AppRouter() {
     return (

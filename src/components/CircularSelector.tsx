@@ -5,7 +5,7 @@ interface ProviderCardProps {
     logo: string;
 }
 
-export default function ProviderCard({ name, logo }: ProviderCardProps) {
+export default function CircularSelector({ name, logo }: ProviderCardProps) {
     const [selected, setSelected] = useState(false);
 
     const handleSelect = () => {
