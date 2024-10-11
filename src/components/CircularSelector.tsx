@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-interface ProviderCardProps {
+interface CircularSelectorProps {
     name: string;
     logo: string;
 }
 
-export default function CircularSelector({ name, logo }: ProviderCardProps) {
+export default function CircularSelector({ name, logo }: CircularSelectorProps) {
     const [selected, setSelected] = useState(false);
 
     const handleSelect = () => {
