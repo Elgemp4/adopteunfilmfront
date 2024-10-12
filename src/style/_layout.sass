@@ -4,8 +4,6 @@
 .providers-grid
   @apply grid grid-cols-2 gap-4 my-8
 
-.movie-tinder
-  @apply flex flex-col items-center justify-center min-h-screen
 
 .header
   @apply flex justify-end w-full p-4
@@ -25,13 +23,4 @@
   .dislike-button, .seen-button, .like-button
     @apply mx-2
 
-.movie-description
-  @apply w-72 text-center bg-white p-4 rounded shadow-md relative max-h-max pt-10 pr-10 line-clamp-1
 
-.movie-description.expanded
-  @apply line-clamp-none
-
-.expand-button
-  @apply absolute top-2 right-2 bg-blue-500 text-white font-bold py-1 px-2 rounded cursor-pointer transition-colors duration-200
-  &:hover
-    @apply bg-blue-700
