@@ -21,15 +21,15 @@ export default function MovieProvider({children}: {children: ReactNode}) {
     });
 
     const like = () => {
-
+        console.log("like")
     }
 
     const dislike = () => {
-
+        console.log("dislike")
     }
 
     const seen = () => {
-
+        console.log("seen")
     }
 
     return <MovieContext.Provider value={{

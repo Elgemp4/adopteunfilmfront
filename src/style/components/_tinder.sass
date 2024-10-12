@@ -1,3 +1,5 @@
+@import "./_movie_description"
+    
 .dislike-button, .seen-button, .like-button
   @apply bg-red-500 text-white font-bold py-2 px-4 rounded cursor-pointer transition-colors duration-200
   &:hover
@@ -9,15 +11,5 @@
 
 
 .movie-tinder
-  @apply flex flex-col items-center justify-center min-h-dvh overflow-scroll bg-gray-100 px-8 py-2 my-8 rounded-md
+  @apply flex flex-col items-center min-h-dvh overflow-scroll bg-gray-100 px-8 py-2 my-8 rounded-md
 
-.expand-button
-  @apply bg-blue-500 text-white font-bold mb-3 py-1 px-2 rounded cursor-pointer transition-colors duration-200 self-end
-  &:hover
-    @apply bg-blue-700
-
-.movie-description
-  @apply flex flex-col  w-72 text-center bg-white p-2 rounded shadow-md max-h-max pt-10 pr-10 h-28 overflow-hidden
-
-  &.expanded
-    @apply h-fit

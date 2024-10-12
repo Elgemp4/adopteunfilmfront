@@ -10,18 +10,19 @@ export default function MovieDescription() {
         throw new Error("Context undefined");
     }
 
-    const {movie_description} = movieContext;
+    const {movie_description, movie_title} = movieContext;
 
     const toggleDescription = () => {
         setIsDescriptionExpanded(!isDescriptionExpanded);
     };
 
-    return <div className={`movie-description ${isDescriptionExpanded ? 'expanded' : ''}`}>
+    return <div className={`movie-info ${isDescriptionExpanded ? 'expanded' : ''}`}>
         <button className="expand-button" onClick={toggleDescription}>
             {isDescriptionExpanded ? 'Réduire' : 'Agrandir'}
         </button>
         <div>
-            {movie_description}
+            <h3 className="movie-info__title">{movie_title}</h3>
+            <p className="movie-info__description">{movie_description}</p>
         </div>
     </div>
 }
