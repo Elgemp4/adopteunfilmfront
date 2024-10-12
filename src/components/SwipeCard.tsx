@@ -5,14 +5,16 @@ import { motion, useMotionValue, useTransform } from "framer-motion"
 export default function SwipeCard() {
     const movieContext = useMovieContext();
 
+    if(movieContext == undefined){
+        throw new Error("Context undefined");
+    }
+
     const x = useMotionValue(0);
 
     const opacity = useTransform(x, [-100, 0, 100], [0.1, 1, 0.1]);
     const rotate = useTransform(x, [-100, 0, 100], [-10, 0, 10]);
 
-    if(movieContext == undefined){
-        throw new Error("Context undefined");
-    }
+    
 
     const {movie_image, movie_title, like, dislike} = movieContext;
 

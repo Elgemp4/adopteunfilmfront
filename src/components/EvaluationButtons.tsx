@@ -1,14 +1,24 @@
+import { useMovieContext } from "../contexts/MovieContext";
+
 export default function EvaluationButtons() {
+    const movieContext = useMovieContext();
+
+    if(movieContext == undefined){
+        throw new Error("Context undefined");
+    }
+
+    const {like, dislike, seen} = movieContext;
+    
     const handleDislike = () => {
-        console.log('Dislike');
+        dislike();
     };
 
     const handleSeen = () => {
-        console.log('Already Seen');
+        seen();
     };
 
     const handleLike = () => {
-        console.log('Like');
+        like();
     };
 
 
