@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function LoginForm() {
-    const { email, setEmail, password, setPassword } = useAuth();
+    const { email, setEmail, password, setPassword, setToken } = useAuth();
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,6 +19,7 @@ export default function LoginForm() {
                 email,
                 password
             });
+            setToken(response.data.token);
             console.log('Login successful:', response.data);
             alert('Connexion réussie!');
             navigate('/film/1');

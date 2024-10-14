@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
 
 export default function RegisterForm() {
-    const { email, password } = useAuth();
+    const { email, password, setToken } = useAuth();
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -41,6 +41,9 @@ export default function RegisterForm() {
                 lastname: formData.lastName,
                 birthdate: formData.birthDate
             });
+
+            setToken(response.data.token);
+            
             console.log('Form submitted:', response.data);
             alert('Inscription réussie!');
             navigate('/providers');
