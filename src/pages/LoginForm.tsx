@@ -1,6 +1,6 @@
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import LoginInput from '../components/forms/Input';
+import Input from '../components/forms/Input';
 import Checkbox from '../components/forms/Checkbox';
 import Button from '../components/forms/Button';
 
@@ -46,13 +46,13 @@ export default function LoginForm() {
 
     return (
             <form className="form-container" onSubmit={handleLoginSubmit}>
-                <LoginInput 
+                <Input 
                     title="Adresse email:"
                     name="email"
                     type="email"
                     value={email}
                     onValueChange={setEmail} />
-                <LoginInput 
+                <Input 
                     title="Mot de passe:"
                     name="password"
                     type="password"
