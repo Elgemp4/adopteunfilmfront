@@ -6,9 +6,9 @@ export default function ThemeToggleButton() {
     return (
         <button
             onClick={toggleDarkMode}
-            className="theme-toggle-button"
+            className="theme-toggle-button material-symbols-outlined"
         >
-            {darkMode ? '🌞' : '🌜'}
+            {darkMode ? 'light_mode' : 'dark_mode'}
         </button>
     );
 }
