@@ -21,7 +21,7 @@ export default function AppRouter() {
                 <Route path="/settings" element={<UserSettings />} />
                 <Route path="/film/:id" element={<MovieTinder />} />
                 <Route path="/group" element={<GroupList />} />
-                <Route path="/group/createGroup" element={<GroupCreate />} />
+                <Route path="/group/create" element={<GroupCreate />} />
                 <Route path="/group/join" element={<GroupJoin />} />
                 <Route path="/group/:idGroup" element={<GroupSettings />} />
                 <Route path="/group/:idGroup/film" element={<GroupMovieChoice />} />

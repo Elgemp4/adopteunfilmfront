@@ -1,6 +1,7 @@
 
 @import "./components/_tinder"  
 @import "./components/_group_card"
+
 .form-container
   @apply bg-white p-4 rounded shadow-md w-full max-w-xl
 
@@ -36,4 +37,13 @@
 
 .validate-button
   @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition-colors duration-200
+
+.group-list
+  @apply flex flex-col space-y-4
+
+.button-group-container
+  @apply flex items-center justify-between mt-4
+
+  .button
+    @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition-colors duration-200 mx-2
 
