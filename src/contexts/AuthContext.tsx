@@ -3,12 +3,14 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 
 interface AuthContextType {
     isLoggedIn: boolean;
+    stayLoggedIn: boolean;
     email: string;
     password: string;
     api: AxiosInstance;
     setToken: (token: string) => void;
     setEmail: (email: string) => void;
     setPassword: (password: string) => void;
+    setStayLoggedIn: (newValue: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -16,6 +18,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [stayLoggedIn, setStayLoggedIn] = useState(false);
 
     const [token, setToken] = useState('');
 
@@ -29,7 +32,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, email, password, api, setToken, setEmail, setPassword }}>
+        <AuthContext.Provider value={{ isLoggedIn, email, password, stayLoggedIn, api, setToken, setEmail, setPassword, setStayLoggedIn }}>
             {children}
         </AuthContext.Provider>
     );
