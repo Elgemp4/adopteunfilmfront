@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { useAuth } from "./AuthContext";
 import api from "./api";
+import { body } from "framer-motion/client";
 
 
 interface MovieContextType{
@@ -28,6 +28,9 @@ export default function MovieProvider({children}: {children: ReactNode}) {
     const [movieList, setMovieList] = useState<MovieApiResponseType[]>([]);
 
     const [loading, setLoading] = useState(true);
+
+    const [seen, setSeen] = useState(false);
+    const [appreciate, setAppreciate] = useState(false);
     
     useEffect(() => {
         async function loadMovies() {
@@ -56,25 +59,45 @@ export default function MovieProvider({children}: {children: ReactNode}) {
         imageUrl: 'https://placehold.co/300x450'
     });*/
 
-    const like = () => {
-        console.log("like")
-        setMovieList(movieList.splice(0, 1));
+    const onLike = async () => {
+        setAppreciate(true);
+        const ok = await sendEvaluation();
+        setMovieList(movieList.slice(1, undefined));
     }
 
-    const dislike = () => {
-        console.log("dislike")
-        setMovieList(movieList.splice(0, 1));
+    const onDislike = async () => {
+        setAppreciate(false);
+        const ok =await sendEvaluation();
+        setMovieList(movieList.slice(1, undefined));
+    }
+    console.log(movieList);
+    const onSeen = () => {
+        setSeen(!onSeen);
     }
 
-    const seen = () => {
-        console.log("seen")
+    const sendEvaluation = async () => {
+        try{
+            await api.post("/movies", 
+                {
+                    movieId: movieList[0].id,
+                    seen,
+                    appreciate
+                }
+            );
+
+            return true;
+        }   
+        catch(error) {
+            return false;
+        }
+        
     }
 
     return loading ? <h1>Loading ...</h1> : <MovieContext.Provider value={{
         movie_image: movieList[0].poster_path,
         movie_title: movieList[0].title,
         movie_description: movieList[0].description,
-        like, dislike, seen
+        like: onLike, dislike: onDislike, seen: onSeen
     }}>
         {children}
     </MovieContext.Provider>
