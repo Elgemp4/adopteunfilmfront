@@ -1,54 +1,27 @@
-import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import axios from 'axios';
+
+import Input from '../components/forms/Input';
+import Button from '../components/forms/Button';
 
 export default function RegisterForm() {
-    const { email, password, setToken } = useAuth();
-    const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        birthDate: '',
-        email: '',
-        password: ''
-    });
-
-    useEffect(() => {
-        setFormData((prevData) => ({
-            ...prevData,
-            email: email,
-            password: password
-        }));
-    }, [email, password]);
+    const { 
+        firstname, lastname, birthDate, 
+        setFirstname, setLastname, setBirthDate , tryRegister
+    } = useAuth();
 
     const navigate = useNavigate();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-    };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:3500/register', {
-                email: formData.email,
-                password: formData.password,
-                firstname: formData.firstName,
-                lastname: formData.lastName,
-                birthdate: formData.birthDate
-            });
+        
+        const result = await tryRegister();
 
-            setToken(response.data.token);
-            
-            console.log('Form submitted:', response.data);
+        if(result){
             alert('Inscription réussie!');
             navigate('/providers');
-        } catch (error) {
-            console.error('Error submitting form:', error);
+        }
+        else{
             alert('Erreur lors de l\'inscription. Veuillez réessayer.');
         }
     };
@@ -56,46 +29,30 @@ export default function RegisterForm() {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <form className="form-container" onSubmit={handleSubmit}>
-                <div className="input-container">
-                    <label className="label">
-                        Prénom:
-                        <input
-                            type="text"
-                            name="firstName"
-                            value={formData.firstName}
-                            onChange={handleChange}
-                            className="input"
-                        />
-                    </label>
-                </div>
-                <div className="input-container">
-                    <label className="label">
-                        Nom:
-                        <input
-                            type="text"
-                            name="lastName"
-                            value={formData.lastName}
-                            onChange={handleChange}
-                            className="input"
-                        />
-                    </label>
-                </div>
-                <div className="input-container">
-                    <label className="label">
-                        Date de naissance:
-                        <input
-                            type="date"
-                            name="birthDate"
-                            value={formData.birthDate}
-                            onChange={handleChange}
-                            className="input"
-                        />
-                    </label>
-                </div>
+                <Input
+                    title='Prénom :'
+                    name='firstname'
+                    value={firstname}
+                    onValueChange={setFirstname}
+                />
+                <Input
+                    title='Nom: '
+                    name="lastname"
+                    value={lastname}
+                    onValueChange={setLastname}
+                />
+                <Input 
+                    title="Date de naissance : "
+                    type="date"
+                    name="birthdate"
+                    value={birthDate}
+                    onValueChange={setBirthDate}
+                />
                 <div className="button-container">
-                    <button type="submit" className="button">
-                        Suivant
-                    </button>
+                    <Button
+                        type='submit'
+                        text='Suivant'
+                        name='next'/>
                 </div>
             </form>
         </div>

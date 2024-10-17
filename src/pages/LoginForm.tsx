@@ -1,83 +1,78 @@
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import Input from '../components/forms/Input';
+import Checkbox from '../components/forms/Checkbox';
+import Button from '../components/forms/Button';
 
 export default function LoginForm() {
-    const { email, setEmail, password, setPassword, setToken } = useAuth();
+    const { email, setEmail, password, setPassword, stayLoggedIn, setStayLoggedIn, tryLogin } = useAuth();
     const navigate = useNavigate();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        if (name === 'email') setEmail(value);
-        if (name === 'password') setPassword(value);
-    };
 
     const handleLoginSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:3500/login', {
-                email,
-                password
-            });
-            setToken(response.data.token);
-            console.log('Login successful:', response.data);
-            alert('Connexion réussie!');
-            navigate('/film/1');
-        } catch (error) {
-            console.error('Error logging in:', error);
-            alert('Erreur de connexion. Vérifiez votre email et votre mot de passe.');
+        const nativeEvent : SubmitEvent = e.nativeEvent as SubmitEvent;
+        const source = nativeEvent.submitter as HTMLButtonElement;
+        
+        if(source == null){
+            return;
+        }
+
+        const name = source.name;
+
+        if(name == "login"){
+            onLogin();
+        }
+        else if(name == "register"){
+            onRegister();
         }
     };
 
-    const handleRegisterClick = (e: React.FormEvent) => {
-        e.preventDefault();
+    const onLogin = async () => {
+        const isLoggedIn = await tryLogin();
+
+        if(isLoggedIn){
+            alert('Connexion réussie!');
+            navigate('/film/1');
+        }
+        else{
+            alert('Erreur de connexion. Vérifiez votre email et votre mot de passe.');
+        }
+    } 
+
+    const onRegister = () => {
         navigate('/register');
     };
 
     return (
             <form className="form-container" onSubmit={handleLoginSubmit}>
-                <div className="input-container">
-                    <label className="label">
-                        Adresse email:
-                        <input
-                            type="email"
-                            name="email"
-                            value={email}
-                            onChange={handleChange}
-                            className="input"
-                        />
-                    </label>
-                </div>
-                <div className="input-container">
-                    <label className="label">
-                        Mot de passe:
-                        <input
-                            type="password"
-                            name="password"
-                            value={password}
-                            onChange={handleChange}
-                            className="input"
-                        />
-                    </label>
-                </div>
-                <div className="input-container">
-                    <label className="label">
-                        <input
-                            type="checkbox"
-                            name="rememberMe"
-                            onChange={handleChange}
-                            className="checkbox"
-                        />
-                        Rester connecté
-                    </label>
-                </div>
+                <Input 
+                    title="Adresse email:"
+                    name="email"
+                    type="email"
+                    value={email}
+                    onValueChange={setEmail} />
+                <Input 
+                    title="Mot de passe:"
+                    name="password"
+                    type="password"
+                    value={password}
+                    onValueChange={setPassword} />
+                <Checkbox
+                    title='Rester connecté'
+                    value={stayLoggedIn}
+                    onChange={setStayLoggedIn}/>
                 <div className="button-container">
-                    <button type="submit" className="button">
-                        Se connecter
-                    </button>
-                    <button type="button" className="button" onClick={handleRegisterClick}>
-                        S'enregistrer
-                    </button>
+                    <Button
+                        text='Se connecter'
+                        type='submit'
+                        name='login'
+                    />
+                    <Button
+                        text="S'enregistrer"
+                        type='submit'
+                        name='register'
+                    />
                 </div>
             </form>
     );

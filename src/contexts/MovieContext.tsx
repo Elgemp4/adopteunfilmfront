@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
+import api from "./api";
 
 
 interface MovieContextType{
@@ -24,8 +25,6 @@ const MovieContext = createContext<MovieContextType|undefined>(undefined);
 
 
 export default function MovieProvider({children}: {children: ReactNode}) {
-    const {api} = useAuth();
-
     const [movieList, setMovieList] = useState<MovieApiResponseType[]>([]);
 
     const [loading, setLoading] = useState(true);
@@ -34,17 +33,13 @@ export default function MovieProvider({children}: {children: ReactNode}) {
         async function loadMovies() {
             try{
                 setLoading(true);
-                console.log("here")
-                console.log(api)
+                
                 const suggestedMovies = await api.get("/movies");
-                console.log("hereé")
-
+                
                 setMovieList(suggestedMovies.data);
-                console.log(suggestedMovies.data)
             }
             catch(err : any){
                 console.log(err.response);
-                //TODO
             }
             finally{
                 setLoading(false);
@@ -53,7 +48,7 @@ export default function MovieProvider({children}: {children: ReactNode}) {
         }
 
         loadMovies();
-    }, [api])
+    }, [])
 
     /*const [movie] = useState({
         title: 'Example Movie',
