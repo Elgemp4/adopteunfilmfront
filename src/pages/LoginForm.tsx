@@ -1,6 +1,5 @@
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import LoginInput from '../components/forms/Input';
 import Checkbox from '../components/forms/Checkbox';
 import Button from '../components/forms/Button';

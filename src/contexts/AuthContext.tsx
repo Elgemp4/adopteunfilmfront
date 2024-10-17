@@ -1,13 +1,11 @@
-import axios, { AxiosInstance } from 'axios';
 import { createContext, useContext, useState, ReactNode } from 'react';
+import api, { changeToken } from './api';
 
 interface AuthContextType {
     isLoggedIn: boolean;
     stayLoggedIn: boolean;
     email: string;
     password: string;
-    api: AxiosInstance;
-    setToken: (token: string) => void;
     setEmail: (email: string) => void;
     setPassword: (password: string) => void;
     setStayLoggedIn: (newValue: boolean) => void;
@@ -21,34 +19,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [password, setPassword] = useState('');
     const [stayLoggedIn, setStayLoggedIn] = useState(false);
 
-    const [token, setToken] = useState('');
-
     const isLoggedIn = true; // Call api to check token
-    console.log(token);
-    const api = axios.create({
-        baseURL: "http://localhost:3500",
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
+
 
     const tryLogin = async () => {
         try {
-            const response = await axios.post('http://localhost:3500/login', {
+            const response = await api.post('/login', {
                 email,
                 password
             });
-            setToken(response.data.token);
             
+            changeToken(response.data.token, stayLoggedIn);
+
             return true
             
         } catch (error) {
+            console.log
+            console.log(error)
             return false;
         }
     }
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, email, password, stayLoggedIn, api, setToken, setEmail, setPassword, setStayLoggedIn, tryLogin }}>
+        <AuthContext.Provider value={{ isLoggedIn, email, password, stayLoggedIn, setEmail, setPassword, setStayLoggedIn, tryLogin }}>
             {children}
         </AuthContext.Provider>
     );
