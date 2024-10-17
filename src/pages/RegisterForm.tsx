@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
+import { changeToken } from '../contexts/api';
 
 export default function RegisterForm() {
-    const { email, password, setToken } = useAuth();
+    const { email, password } = useAuth();
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -42,7 +43,7 @@ export default function RegisterForm() {
                 birthdate: formData.birthDate
             });
 
-            setToken(response.data.token);
+            changeToken(response.data.token, stayConnected);
             
             console.log('Form submitted:', response.data);
             alert('Inscription réussie!');

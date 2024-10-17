@@ -17,12 +17,14 @@ export function changeToken(newToken: string, stayConnected: boolean){
     
     if(stayConnected){
         localStorage.setItem("token", newToken);
+        sessionStorage.removeItem("token");
     }
     else{
-        sessionStorage.setItem("token", newToken)    
+        sessionStorage.setItem("token", newToken) 
+        localStorage.removeItem("token");   
     }
 
-    api.defaults.headers['Authorization'] = token;
+    api.defaults.headers['Authorization'] = `Bearer ${token}`;
 }
 
 

@@ -17,6 +17,10 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
+    const [birthDate, setBirthDate] = useState(new Date())
+
     const [stayLoggedIn, setStayLoggedIn] = useState(false);
 
     const isLoggedIn = true; // Call api to check token
@@ -38,6 +42,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             console.log(error)
             return false;
         }
+    }
+
+    const tryRegister = async () => {
+
     }
 
     return (
