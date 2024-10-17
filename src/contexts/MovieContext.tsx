@@ -1,4 +1,5 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import { useAuth } from "./AuthContext";
 
 
 interface MovieContextType{
@@ -10,32 +11,74 @@ interface MovieContextType{
     seen: () => void
 }
 
+interface MovieApiResponseType{
+    id: number,
+    adult: boolean,
+    title: string,
+    description: string,
+    poster_path: string,
+    vote_avg: number
+}
 
 const MovieContext = createContext<MovieContextType|undefined>(undefined);
 
+
 export default function MovieProvider({children}: {children: ReactNode}) {
-    const [movie] = useState({
+    const {api} = useAuth();
+
+    const [movieList, setMovieList] = useState<MovieApiResponseType[]>([]);
+
+    const [loading, setLoading] = useState(true);
+    
+    useEffect(() => {
+        async function loadMovies() {
+            try{
+                setLoading(true);
+                console.log("here")
+                console.log(api)
+                const suggestedMovies = await api.get("/movies");
+                console.log("hereé")
+
+                setMovieList(suggestedMovies.data);
+                console.log(suggestedMovies.data)
+            }
+            catch(err : any){
+                console.log(err.response);
+                //TODO
+            }
+            finally{
+                setLoading(false);
+                
+            }
+        }
+
+        loadMovies();
+    }, [api])
+
+    /*const [movie] = useState({
         title: 'Example Movie',
         description: "Loreuuuum ipsum dolor sit amet consectetur adipisicing elit. Vel excepturi officiis nam esse explicabo. Quaerat ut consequuntur quo sapiente ex perferendis id consectetur doloremque cumque. Consequatur facilis aperiam iste et.",
         imageUrl: 'https://placehold.co/300x450'
-    });
+    });*/
 
     const like = () => {
         console.log("like")
+        setMovieList(movieList.splice(0, 1));
     }
 
     const dislike = () => {
         console.log("dislike")
+        setMovieList(movieList.splice(0, 1));
     }
 
     const seen = () => {
         console.log("seen")
     }
 
-    return <MovieContext.Provider value={{
-        movie_image: movie.imageUrl,
-        movie_title: movie.title,
-        movie_description: movie.description,
+    return loading ? <h1>Loading ...</h1> : <MovieContext.Provider value={{
+        movie_image: movieList[0].poster_path,
+        movie_title: movieList[0].title,
+        movie_description: movieList[0].description,
         like, dislike, seen
     }}>
         {children}
