@@ -11,6 +11,7 @@ interface AuthContextType {
     setEmail: (email: string) => void;
     setPassword: (password: string) => void;
     setStayLoggedIn: (newValue: boolean) => void;
+    tryLogin: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -31,8 +32,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     });
 
+    const tryLogin = async () => {
+        try {
+            const response = await axios.post('http://localhost:3500/login', {
+                email,
+                password
+            });
+            setToken(response.data.token);
+            
+            return true
+            
+        } catch (error) {
+            return false;
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{ isLoggedIn, email, password, stayLoggedIn, api, setToken, setEmail, setPassword, setStayLoggedIn }}>
+        <AuthContext.Provider value={{ isLoggedIn, email, password, stayLoggedIn, api, setToken, setEmail, setPassword, setStayLoggedIn, tryLogin }}>
             {children}
         </AuthContext.Provider>
     );

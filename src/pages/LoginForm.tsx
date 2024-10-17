@@ -6,7 +6,7 @@ import Checkbox from '../components/forms/Checkbox';
 import Button from '../components/forms/Button';
 
 export default function LoginForm() {
-    const { email, setEmail, password, setPassword, stayLoggedIn, setStayLoggedIn, setToken } = useAuth();
+    const { email, setEmail, password, setPassword, stayLoggedIn, setStayLoggedIn, tryLogin } = useAuth();
     const navigate = useNavigate();
 
 
@@ -30,17 +30,13 @@ export default function LoginForm() {
     };
 
     const onLogin = async () => {
-        try {
-            const response = await axios.post('http://localhost:3500/login', {
-                email,
-                password
-            });
-            setToken(response.data.token);
-            console.log('Login successful:', response.data);
+        const isLoggedIn = await tryLogin();
+
+        if(isLoggedIn){
             alert('Connexion réussie!');
             navigate('/film/1');
-        } catch (error) {
-            console.error('Error logging in:', error);
+        }
+        else{
             alert('Erreur de connexion. Vérifiez votre email et votre mot de passe.');
         }
     } 
