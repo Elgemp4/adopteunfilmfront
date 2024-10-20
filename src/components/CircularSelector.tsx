@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useProviderContext } from '../contexts/ProviderContext';
 
-export default function CircularSelector() {
+interface CircularSelectorProps {
+    onSelectionChange: (selectedIds: number[]) => void;
+}
+
+export default function CircularSelector({ onSelectionChange }: CircularSelectorProps) {
     const [selected, setSelected] = useState<number[]>([]);
     const providerContext = useProviderContext();
 
@@ -12,6 +16,10 @@ export default function CircularSelector() {
                 : [...prevSelected, id]
         );
     };
+
+    useEffect(() => {
+        onSelectionChange(selected);
+    }, [selected, onSelectionChange]);
 
     if (!providerContext) {
         return <div>Loading...</div>;

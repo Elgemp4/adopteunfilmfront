@@ -3,6 +3,7 @@ import api from "./api";
 
 interface ProviderContextType {
     providers: ProviderApiResponseType[];
+    sendSelectedProviders: (providerIds: number[]) => Promise<void>;
 }
 
 interface ProviderApiResponseType {
@@ -22,8 +23,7 @@ export default function ProviderProvider({ children }: { children: ReactNode }) 
             try {
                 setLoading(true);
                 const response = await api.get("/providers");
-                console.log("Response data:", response.data); // Log the response data
-                setProviderList(response.data.providers); // Access the providers array
+                setProviderList(response.data.providers);
             } catch (err: any) {
                 console.log("Error:", err.response);
             } finally {
@@ -34,8 +34,17 @@ export default function ProviderProvider({ children }: { children: ReactNode }) 
         loadProviders();
     }, []);
 
+    const sendSelectedProviders = async (providerIds: number[]) => {
+        try {
+            const response = await api.post("/providers/personal", {providers: providerIds });
+            console.log("Selected providers sent successfully:", response.data);
+        } catch (err: any) {
+            console.log("Error sending selected providers:", err.response);
+        }
+    };
+
     return loading ? <h1>Loading...</h1> : (
-        <ProviderContext.Provider value={{ providers: providerList }}>
+        <ProviderContext.Provider value={{ providers: providerList, sendSelectedProviders }}>
             {children}
         </ProviderContext.Provider>
     );
