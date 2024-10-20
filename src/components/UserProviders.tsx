@@ -1,5 +1,6 @@
 import CircularSelector from './CircularSelector';
-import { useNavigate } from 'react-router-dom';
+import ProviderProvider from "../contexts/ProviderContext";
+import {useNavigate} from 'react-router-dom';
 
 // const providers = [
 //     { name: 'Netflix', logo: 'https://loodibee.com/wp-content/uploads/Netflix-N-Symbol-logo-black-bg.png' },
@@ -19,13 +20,9 @@ export default function UserProviders() {
     return (
         <div className="user-providers">
             <div className="providers-grid">
-                {providers.map((provider) => (
-                    <CircularSelector
-                        key={provider.name}
-                        name={provider.name}
-                        logo={provider.logo}
-                    />
-                ))}
+                <ProviderProvider>
+                    <CircularSelector/>
+                </ProviderProvider>
             </div>
             <div className="button-container">
                 <button type="button" className="validate-button" onClick={handleValidate}>

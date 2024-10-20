@@ -1,5 +1,5 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { useAuth } from "./AuthContext";
+import {ReactNode, createContext, useContext, useEffect, useState} from "react";
+import api from "./api"
 
 interface ProviderContextType {
     provider_id: number,
@@ -15,9 +15,7 @@ interface ProviderApiResponseType {
 
 const ProviderContext = createContext<ProviderContextType | undefined>(undefined);
 
-export default function ProviderProvider({ children }: { children: ReactNode }) {
-    const { api } = useAuth();
-
+export default function ProviderProvider({children}: { children: ReactNode }) {
     const [providerList, setProviderList] = useState<ProviderApiResponseType[]>([]);
 
     const [loading, setLoading] = useState(true);
@@ -26,22 +24,30 @@ export default function ProviderProvider({ children }: { children: ReactNode }) 
         async function loadProviders() {
             try {
                 setLoading(true);
+
                 const providers = await api.get("/providers/global");
+
                 setProviderList(providers.data);
             } catch (err: any) {
                 console.log(err.response);
-                //TODO
             } finally {
                 setLoading(false);
             }
         }
 
         loadProviders();
-    }, [api]);
+    }, []);
 
-    return (
-        <ProviderContext.Provider value={providerList}>
-            {children}
-        </ProviderContext.Provider>
-    );
+    return loading ? <h1>Loading...</h1> : <ProviderContext.Provider value={{
+        provider_id: providerList[0].provider_id,
+        provider_name: providerList[0].provider_name,
+        provider_logo: providerList[0].provider_logo,
+    }}>
+        {children}
+    </ProviderContext.Provider>;
+
+}
+
+export const useProviderContext = () => {
+    return useContext(ProviderContext);
 }
