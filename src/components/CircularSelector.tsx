@@ -1,25 +1,31 @@
 import { useState } from 'react';
+import { useProviderContext } from '../contexts/ProviderContext';
 
-interface CircularSelectorProps {
-    name: string;
-    logo: string;
-}
+export default function CircularSelector() {
+    const [selected, setSelected] = useState<number | null>(null);
+    const providerContext = useProviderContext();
 
-export default function CircularSelector({ name, logo }: CircularSelectorProps) {
-    const [selected, setSelected] = useState(false);
-
-    const handleSelect = () => {
-        setSelected(!selected);
+    const handleSelect = (id: number) => {
+        setSelected(id);
     };
 
+    if (!providerContext) {
+        return <div>Loading...</div>;
+    }
+
     return (
-        <div
-            className={`provider-card ${selected ? 'selected' : ''}`}
-            onClick={handleSelect}
-        >
-            <div className="provider-logo-container">
-                <img src={logo} alt={`${name} logo`} className="provider-logo" />
-            </div>
+        <div className="providers-grid">
+            {providerContext.providers.map(provider => (
+                <div
+                    key={provider.provider_id}
+                    className={`provider-card ${selected === provider.provider_id ? 'selected' : ''}`}
+                    onClick={() => handleSelect(provider.provider_id)}
+                >
+                    <div className="provider-logo-container">
+                        <img src={provider.logo_path} alt={`${provider.name} logo`} className="provider-logo" />
+                    </div>
+                </div>
+            ))}
         </div>
     );
 }

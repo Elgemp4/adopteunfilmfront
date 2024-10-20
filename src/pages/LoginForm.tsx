@@ -33,7 +33,7 @@ export default function LoginForm() {
 
         if(isLoggedIn){
             alert('Connexion réussie!');
-            navigate('/film/1');
+            navigate('/providers');
         }
         else{
             alert('Erreur de connexion. Vérifiez votre email et votre mot de passe.');
