@@ -2,11 +2,15 @@ import { useState } from 'react';
 import { useProviderContext } from '../contexts/ProviderContext';
 
 export default function CircularSelector() {
-    const [selected, setSelected] = useState<number | null>(null);
+    const [selected, setSelected] = useState<number[]>([]);
     const providerContext = useProviderContext();
 
     const handleSelect = (id: number) => {
-        setSelected(id);
+        setSelected(prevSelected =>
+            prevSelected.includes(id)
+                ? prevSelected.filter(selectedId => selectedId !== id)
+                : [...prevSelected, id]
+        );
     };
 
     if (!providerContext) {
@@ -18,7 +22,7 @@ export default function CircularSelector() {
             {providerContext.providers.map(provider => (
                 <div
                     key={provider.provider_id}
-                    className={`provider-card ${selected === provider.provider_id ? 'selected' : ''}`}
+                    className={`provider-card ${selected.includes(provider.provider_id) ? 'selected' : ''}`}
                     onClick={() => handleSelect(provider.provider_id)}
                 >
                     <div className="provider-logo-container">
