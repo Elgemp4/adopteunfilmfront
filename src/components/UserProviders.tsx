@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import CircularSelector from './CircularSelector';
+import ProviderCardContainer from './ProviderCardContainer.tsx';
 import { useProviderContext } from "../contexts/ProviderContext";
 import { useNavigate } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ export default function UserProviders() {
 
     return (
         <div className="user-providers">
-            <CircularSelector onSelectionChange={setSelectedProviderIds} />
+            <ProviderCardContainer onSelectionChange={setSelectedProviderIds} />
             <div className="button-container">
                 <button type="button" className="validate-button" onClick={handleValidate}>
                     Valider

@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useProviderContext } from '../contexts/ProviderContext';
+import ProviderCard from './ProviderCard';
 
 interface CircularSelectorProps {
     onSelectionChange: (selectedIds: number[]) => void;
 }
 
-export default function CircularSelector({ onSelectionChange }: CircularSelectorProps) {
+export default function ProviderCardContainer({ onSelectionChange }: CircularSelectorProps) {
     const [selected, setSelected] = useState<number[]>([]);
     const providerContext = useProviderContext();
 
@@ -28,15 +29,12 @@ export default function CircularSelector({ onSelectionChange }: CircularSelector
     return (
         <div className="providers-grid">
             {providerContext.providers.map(provider => (
-                <div
+                <ProviderCard
                     key={provider.provider_id}
-                    className={`provider-card ${selected.includes(provider.provider_id) ? 'selected' : ''}`}
-                    onClick={() => handleSelect(provider.provider_id)}
-                >
-                    <div className="provider-logo-container">
-                        <img src={provider.logo_path} alt={`${provider.name} logo`} className="provider-logo" />
-                    </div>
-                </div>
+                    provider={provider}
+                    isSelected={selected.includes(provider.provider_id)}
+                    onSelect={handleSelect}
+                />
             ))}
         </div>
     );
