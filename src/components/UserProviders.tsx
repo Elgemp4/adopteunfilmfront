@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import ProviderCardContainer from './ProviderCardContainer.tsx';
-import { useProviderContext } from "../contexts/ProviderContext";
-import { useNavigate } from 'react-router-dom';
+import {useProviderContext} from "../contexts/ProviderContext";
+import {useNavigate} from 'react-router-dom';
+import ButtonContainer from "./forms/ButtonContainer.tsx";
 
 export default function UserProviders() {
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function UserProviders() {
         throw new Error("Context undefined");
     }
 
-    const { sendSelectedProviders } = providerContext;
+    const {sendSelectedProviders} = providerContext;
 
     const handleValidate = async () => {
         await sendSelectedProviders(selectedProviderIds);
@@ -21,12 +22,12 @@ export default function UserProviders() {
 
     return (
         <div className="user-providers">
-            <ProviderCardContainer onSelectionChange={setSelectedProviderIds} />
-            <div className="button-container">
-                <button type="button" className="validate-button" onClick={handleValidate}>
-                    Valider
-                </button>
-            </div>
+            <ProviderCardContainer onSelectionChange={setSelectedProviderIds}/>
+            <ButtonContainer
+                buttons={[
+                    { text: "Valider", type: "button", name: "validate", onClick: handleValidate },
+                ]}
+            />
         </div>
     );
 }

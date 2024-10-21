@@ -1,22 +1,20 @@
+import Input from "../components/forms/Input.tsx";
+import ButtonContainer from "../components/forms/ButtonContainer.tsx";
 
 export default function GroupJoin() {
     return (
         <form className="form-container">
-            <div className="input-container">
-                <label className="label">
-                    Code du groupe:
-                    <input
-                        type="text"
-                        name="groupCode"
-                        className="input"
-                    />
-                </label>
-            </div>
-            <div className="button-container">
-                <button type="submit" className="button">
-                    Rejoindre
-                </button>
-            </div>
+            <Input
+                title="Code du groupe:"
+                type="text"
+                name="groupCode"
+                value=""
+            />
+            <ButtonContainer
+                buttons={[
+                    { text: "Rejoindre", type: "submit", name: "joinGroup" }
+                ]}
+            />
         </form>
     );
 }

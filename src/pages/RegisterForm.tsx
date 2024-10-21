@@ -1,27 +1,25 @@
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-
+import {useNavigate} from 'react-router-dom';
+import {useAuth} from '../contexts/AuthContext';
 import Input from '../components/forms/Input';
-import Button from '../components/forms/Button';
+import ButtonContainer from "../components/forms/ButtonContainer.tsx";
 
 export default function RegisterForm() {
-    const { 
-        firstname, lastname, birthDate, 
-        setFirstname, setLastname, setBirthDate , tryRegister
+    const {
+        firstname, lastname, birthDate,
+        setFirstname, setLastname, setBirthDate, tryRegister
     } = useAuth();
 
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         const result = await tryRegister();
 
-        if(result){
+        if (result) {
             alert('Inscription réussie!');
             navigate('/providers');
-        }
-        else{
+        } else {
             alert('Erreur lors de l\'inscription. Veuillez réessayer.');
         }
     };
@@ -34,6 +32,7 @@ export default function RegisterForm() {
                     name='firstname'
                     value={firstname}
                     onValueChange={setFirstname}
+
                 />
                 <Input
                     title='Nom: '
@@ -41,19 +40,18 @@ export default function RegisterForm() {
                     value={lastname}
                     onValueChange={setLastname}
                 />
-                <Input 
+                <Input
                     title="Date de naissance : "
                     type="date"
                     name="birthdate"
                     value={birthDate}
                     onValueChange={setBirthDate}
                 />
-                <div className="button-container">
-                    <Button
-                        type='submit'
-                        text='Suivant'
-                        name='next'/>
-                </div>
+                <ButtonContainer
+                    buttons={[
+                        { text: "Suivant", type: "submit", name: "next" }
+                    ]}
+                />
             </form>
         </div>
     );

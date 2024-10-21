@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import GroupCard from '../components/GroupCard';
-import { useNavigate } from 'react-router-dom';
+import GroupCard from "../components/GroupCard.tsx";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import ButtonContainer from "../components/forms/ButtonContainer.tsx";
 
 export default function GroupList() {
     const [groups, setGroups] = useState([
@@ -15,12 +16,12 @@ export default function GroupList() {
         setGroups(groups.filter(group => group.id !== id));
     };
 
-    const handleCreateGroupClick = (e: React.FormEvent) => {
+    const handleCreateGroupClick = async (e: React.FormEvent) => {
         e.preventDefault();
         navigate('/group/create');
     };
 
-    const handleJoinGroupClick= (e: React.FormEvent) => {
+    const handleJoinGroupClick = async (e: React.FormEvent) => {
         e.preventDefault();
         navigate('/group/join');
     };
@@ -36,14 +37,12 @@ export default function GroupList() {
                     />
                 ))}
             </div>
-            <div className="button-group-container">
-                <button type="button" className="button" onClick={handleCreateGroupClick}>
-                    Créer un groupe
-                </button>
-                <button type="button" className="button" onClick={handleJoinGroupClick}>
-                    Rejoindre un groupe
-                </button>
-            </div>
+            <ButtonContainer
+                buttons={[
+                    { text: "Créer un groupe", type: "button", name: "createGroup", onClick: handleCreateGroupClick },
+                    { text: "Rejoindre un groupe", type: "button", name: "joinGroup", onClick: handleJoinGroupClick },
+                ]}
+            />
         </div>
     );
 }

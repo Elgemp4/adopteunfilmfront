@@ -1,22 +1,20 @@
+import Input from "../components/forms/Input.tsx";
+import ButtonContainer from "../components/forms/ButtonContainer.tsx";
 
 export default function GroupCreate() {
     return (
         <form className="form-container">
-            <div className="input-container">
-                <label className="label">
-                    Nom du groupe:
-                    <input
-                        type="text"
-                        name="groupName"
-                        className="input"
-                    />
-                </label>
-            </div>
-            <div className="button-container">
-                <button type="submit" className="button">
-                    Créer
-                </button>
-            </div>
+            <Input
+                title="Nom du groupe:"
+                type="text"
+                name="groupName"
+                value=""
+            />
+            <ButtonContainer
+                buttons={[
+                    { text: "Créer", type: "submit", name: "createGroup" }
+                ]}
+            />
         </form>
     );
 }
