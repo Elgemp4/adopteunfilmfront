@@ -9,7 +9,7 @@ import GroupCreate from '../pages/GroupCreate';
 import GroupJoin from '../pages/GroupJoin';
 import GroupSettings from '../pages/GroupSettings';
 import GroupMovieChoice from '../pages/GroupMovieChoice';
-import ProviderProvider from '../contexts/ProviderContext';
+import ProviderDistributor from '../contexts/ProviderContext';
 
 export default function AppRouter() {
     return (
@@ -19,9 +19,9 @@ export default function AppRouter() {
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/register" element={<RegisterForm />} />
                 <Route path="/providers" element={
-                    <ProviderProvider>
+                    <ProviderDistributor>
                         <UserProviders />
-                    </ProviderProvider>
+                    </ProviderDistributor>
                 } />
                 <Route path="/settings" element={<UserSettings />} />
                 <Route path="/film/:id" element={<MovieTinder />} />

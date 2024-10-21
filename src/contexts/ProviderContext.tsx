@@ -14,7 +14,7 @@ interface ProviderApiResponseType {
 
 const ProviderContext = createContext<ProviderContextType | undefined>(undefined);
 
-export default function ProviderProvider({ children }: { children: ReactNode }) {
+export default function ProviderDistributor({ children }: { children: ReactNode }) {
     const [providerList, setProviderList] = useState<ProviderApiResponseType[]>([]);
     const [loading, setLoading] = useState(true);
 
