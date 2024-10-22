@@ -17,8 +17,8 @@ export default function MovieDescription() {
     };
 
     return <div className={`movie-info ${isDescriptionExpanded ? 'expanded' : ''}`}>
-        <button className="expand-button" onClick={toggleDescription}>
-            {isDescriptionExpanded ? 'Réduire' : 'Agrandir'}
+        <button className="expand-button material-symbols-outlined" onClick={toggleDescription}>
+            {isDescriptionExpanded ? 'collapse_content' : 'expand_content'}
         </button>
         <div>
             <h3 className="movie-info__title">{movie_title}</h3>

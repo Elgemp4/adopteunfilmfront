@@ -1,5 +1,4 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { useAuth } from "./AuthContext";
 import api from "./api";
 
 
@@ -35,6 +34,7 @@ export default function MovieProvider({children}: {children: ReactNode}) {
                 setLoading(true);
                 
                 const suggestedMovies = await api.get("/movies");
+
                 
                 setMovieList(suggestedMovies.data);
             }
