@@ -32,8 +32,15 @@ const api = axios.create({
     baseURL: "http://localhost:3500",
     headers:{
         Authorization: `Bearer ${token}`
-    }
+    },
+    withCredentials: true
 })
+
+api.interceptors.response.use(null, (error: any) => {
+    console.log(error)
+});
+
+
 
 
 export default api;
