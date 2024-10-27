@@ -12,7 +12,10 @@
   @apply flex flex-col items-center justify-center
 
 .movie-image
-  @apply w-72 h-96 object-cover mb-4
+  @apply w-72 object-cover mb-4 relative
+
+.color-overlay
+  @apply absolute bg-slate-500 inset-0 z-10
 
 .buttons-container
   @apply flex justify-around w-full mb-4
