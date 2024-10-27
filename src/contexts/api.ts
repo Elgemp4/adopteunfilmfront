@@ -40,7 +40,7 @@ const api = axios.create({
 
 api.interceptors.response.use((response) => {
     const token = response.data.token;
-    console.log(token);
+
     if(token != undefined){
         changeToken(token, false);
     }

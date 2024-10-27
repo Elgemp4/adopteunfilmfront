@@ -14,12 +14,13 @@ export default function RegisterForm() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const result = await tryRegister();
+        try{
+            await tryRegister();
 
-        if (result) {
             alert('Inscription réussie!');
             navigate('/providers');
-        } else {
+        }
+        catch(_){
             alert('Erreur lors de l\'inscription. Veuillez réessayer.');
         }
     };

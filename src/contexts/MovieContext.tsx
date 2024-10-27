@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import api from "./api";
-import { body } from "framer-motion/client";
+import { body, tr } from "framer-motion/client";
 
 
 interface MovieContextType{
@@ -53,15 +53,22 @@ export default function MovieProvider({children}: {children: ReactNode}) {
     }
 
     const onLike = async () => {
-        setAppreciate(true);
-        const ok = await sendEvaluation();
-        await removeEvaluatedMovie();
+        await evaluate(true);
     }
 
     const onDislike = async () => {
-        setAppreciate(false);
-        const ok =await sendEvaluation();
-        await removeEvaluatedMovie();
+        await evaluate(false);
+    }
+
+    const evaluate = async (appreciate : boolean) => {
+        try{
+            setAppreciate(appreciate);
+            await sendEvaluation();
+            await removeEvaluatedMovie();
+        }
+        catch(_){
+            alert("Une erreur est survenue lors de l'évaluation du film. Veuillez réesayer")
+        }
     }
 
     const onSeen = () => {
@@ -69,21 +76,13 @@ export default function MovieProvider({children}: {children: ReactNode}) {
     }
 
     const sendEvaluation = async () => {
-        try{
-            await api.post("/movies", 
-                {
-                    movieId: movieList[0].id,
-                    seen,
-                    appreciate
-                }
-            );
-
-            return true;
-        }   
-        catch(error) {
-            return false;
-        }
-        
+        await api.post("/movies", 
+            {
+                movieId: movieList[0].id,
+                seen,
+                appreciate
+            }
+        );
     }
 
     const removeEvaluatedMovie = async () => {
@@ -92,6 +91,10 @@ export default function MovieProvider({children}: {children: ReactNode}) {
         if(movieList.length <= 1){
             await loadMovies();
         }
+    }
+
+    if(!loading && movieList.length == 0){
+        return <div>Erreur de connection, veuillez recharger la page...</div>
     }
 
     return loading ? <h1>Loading ...</h1> : <MovieContext.Provider value={{
