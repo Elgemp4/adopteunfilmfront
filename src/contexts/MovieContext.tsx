@@ -71,7 +71,7 @@ export default function MovieProvider({children}: {children: ReactNode}) {
         const ok =await sendEvaluation();
         setMovieList(movieList.slice(1, undefined));
     }
-    console.log(movieList);
+
     const onSeen = () => {
         setSeen(!onSeen);
     }
