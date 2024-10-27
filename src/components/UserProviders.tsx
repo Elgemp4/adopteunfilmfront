@@ -1,36 +1,33 @@
-import CircularSelector from './CircularSelector';
-import { useNavigate } from 'react-router-dom';
-
-const providers = [
-    { name: 'Netflix', logo: 'https://loodibee.com/wp-content/uploads/Netflix-N-Symbol-logo-black-bg.png' },
-    { name: 'Amazon Prime', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Amazon_Prime_Video_blue_logo_1.svg/720px-Amazon_Prime_Video_blue_logo_1.svg.png' },
-    // Ajoutez d'autres providers ici
-];
+import {useState} from 'react';
+import ProviderCardContainer from './ProviderCardContainer.tsx';
+import {useProviderContext} from "../contexts/ProviderContext";
+import {useNavigate} from 'react-router-dom';
+import ButtonContainer from "./forms/ButtonContainer.tsx";
 
 export default function UserProviders() {
-
     const navigate = useNavigate();
+    const providerContext = useProviderContext();
+    const [selectedProviderIds, setSelectedProviderIds] = useState<number[]>([]);
 
-    const handleValidate = () => {
+    if (providerContext == undefined) {
+        throw new Error("Context undefined");
+    }
+
+    const {sendSelectedProviders} = providerContext;
+
+    const handleValidate = async () => {
+        await sendSelectedProviders(selectedProviderIds);
         navigate('/film/1');
     };
 
     return (
         <div className="user-providers">
-            <div className="providers-grid">
-                {providers.map((provider) => (
-                    <CircularSelector
-                        key={provider.name}
-                        name={provider.name}
-                        logo={provider.logo}
-                    />
-                ))}
-            </div>
-            <div className="button-container">
-                <button type="button" className="validate-button" onClick={handleValidate}>
-                    Valider
-                </button>
-            </div>
+            <ProviderCardContainer onSelectionChange={setSelectedProviderIds}/>
+            <ButtonContainer
+                buttons={[
+                    { text: "Valider", type: "button", name: "validate", onClick: handleValidate },
+                ]}
+            />
         </div>
     );
 }
