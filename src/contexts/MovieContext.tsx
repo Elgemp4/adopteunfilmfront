@@ -41,7 +41,6 @@ export default function MovieProvider({children}: {children: ReactNode}) {
             setLoading(true);
             
             const suggestedMovies = await api.get("/movies");
-
             setMovieList(suggestedMovies.data);
         }
         catch(err : any){

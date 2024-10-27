@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
-let token = undefined;
+let token : string = "";
 
 const localToken = localStorage.getItem("token"); 
 if(localToken != null){
@@ -11,6 +11,8 @@ const sessionToken = sessionStorage.getItem("token");
 if(sessionToken != null) {
     token = sessionToken;
 }
+
+console.log("initial " , token)
 
 export function changeToken(newToken: string, stayConnected: boolean){
     token = newToken
@@ -36,8 +38,37 @@ const api = axios.create({
     withCredentials: true
 })
 
-api.interceptors.response.use(null, (error: any) => {
-    console.log(error)
+api.interceptors.response.use((response) => {
+    const token = response.data.token;
+    console.log(token);
+    if(token != undefined){
+        changeToken(token, false);
+    }
+
+    return response;
+}, null)
+
+api.interceptors.response.use(null, async (error: AxiosError) => {
+    console.log("Oups :  ", error)
+
+    const requestConfig = error.config;
+    if(requestConfig == undefined){
+        return;
+    }
+
+    try{
+        if(error.status == 401){
+            const result = await api.post("/renew")
+            if(result.status == 200){
+                requestConfig.headers.Authorization = `Bearer ${token}`;
+            return api(requestConfig);
+            }
+        }    
+    }
+    catch(_){
+        console.log("too bad" + _)
+    }
+    
 });
 
 
