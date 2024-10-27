@@ -34,37 +34,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 
     const tryLogin = async () => {
-        try {
-            const response = await api.post('/login', {
-                email,
-                password
-            });
-            
-            changeToken(response.data.token, stayLoggedIn);
-
-            return true
-            
-        } catch (error) {
-            return false;
-        }
+        const response = await api.post('/login', {
+            email,
+            password
+        });
+        
+        changeToken(response.data.token, stayLoggedIn);
     }
 
     const tryRegister = async () => {
-        try {
-            const response = await api.post('/register', {
-                email,
-                password,
-                firstname,
-                lastname,
-                birthdate
-            });
+        const response = await api.post('/register', {
+            email,
+            password,
+            firstname,
+            lastname,
+            birthdate
+        });
 
-            changeToken(response.data.token, stayLoggedIn);
-            
-            return true;
-        } catch (error) {
-            return false;
-        }
+        changeToken(response.data.token, stayLoggedIn);
     }
 
     return (

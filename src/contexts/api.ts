@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
-let token = undefined;
+let token : string = "";
 
 const localToken = localStorage.getItem("token"); 
 if(localToken != null){
@@ -32,8 +32,46 @@ const api = axios.create({
     baseURL: "http://localhost:3500",
     headers:{
         Authorization: `Bearer ${token}`
-    }
+    },
+    withCredentials: true
 })
+
+api.interceptors.response.use((response) => {
+    const token = response.data.token;
+
+    if(token != undefined){
+        changeToken(token, false);
+    }
+
+    return response;
+}, null)
+
+api.interceptors.response.use(null, async (error: AxiosError) => {
+    const requestConfig = error.config;
+    if(requestConfig == undefined){
+        return;
+    }
+
+    try{
+        if(error.status == 401){
+            const result = await api.post("/renew")
+            if(result == undefined){
+                document.location = "/login";
+                return;
+            }
+
+            if(result.status == 200){
+                requestConfig.headers.Authorization = `Bearer ${token}`;
+                return api(requestConfig);
+            }
+        }    
+    }
+    catch(_){
+    }
+    
+});
+
+
 
 
 export default api;

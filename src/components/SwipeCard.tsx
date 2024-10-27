@@ -11,9 +11,8 @@ export default function SwipeCard() {
 
     const x = useMotionValue(0);
 
-    const opacity = useTransform(x, [-100, 0, 100], [0.1, 1, 0.1]);
     const rotate = useTransform(x, [-100, 0, 100], [-10, 0, 10]);
-    const backgroundColor = useTransform(x, [-100, 0, 100], ["#fa3425FF", "#FFF0", "#29fa25FF"]);
+    const backgroundColor = useTransform(x, [-100, 0, 100], ["#fa3425A0", "#FFF0", "#29fa25A0"]);
 
     
 

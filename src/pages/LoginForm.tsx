@@ -28,12 +28,12 @@ export default function LoginForm() {
     };
 
     const onLogin = async () => {
-        const isLoggedIn = await tryLogin();
-
-        if (isLoggedIn) {
+        try{
+            await tryLogin();
             alert('Connexion réussie!');
             navigate('/providers');
-        } else {
+        }
+        catch(_){
             alert('Erreur de connexion. Vérifiez votre email et votre mot de passe.');
         }
     }

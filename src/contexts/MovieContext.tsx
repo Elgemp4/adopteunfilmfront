@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import api from "./api";
-import { body } from "framer-motion/client";
+import { body, tr } from "framer-motion/client";
 
 
 interface MovieContextType{
@@ -33,43 +33,41 @@ export default function MovieProvider({children}: {children: ReactNode}) {
     const [appreciate, setAppreciate] = useState(false);
     
     useEffect(() => {
-        async function loadMovies() {
-            try{
-                setLoading(true);
-                
-                const suggestedMovies = await api.get("/movies");
-
-                
-                setMovieList(suggestedMovies.data);
-            }
-            catch(err : any){
-                console.log(err.response);
-            }
-            finally{
-                setLoading(false);
-                
-            }
-        }
-
         loadMovies();
     }, [])
 
-    /*const [movie] = useState({
-        title: 'Example Movie',
-        description: "Loreuuuum ipsum dolor sit amet consectetur adipisicing elit. Vel excepturi officiis nam esse explicabo. Quaerat ut consequuntur quo sapiente ex perferendis id consectetur doloremque cumque. Consequatur facilis aperiam iste et.",
-        imageUrl: 'https://placehold.co/300x450'
-    });*/
+    async function loadMovies() {
+        try{
+            setLoading(true);
+            
+            const suggestedMovies = await api.get("/movies");
+            setMovieList(suggestedMovies.data);
+        }
+        catch(err : any){
+            console.log(err.response);
+        }
+        finally{
+            setLoading(false);
+        }
+    }
 
     const onLike = async () => {
-        setAppreciate(true);
-        const ok = await sendEvaluation();
-        setMovieList(movieList.slice(1, undefined));
+        await evaluate(true);
     }
 
     const onDislike = async () => {
-        setAppreciate(false);
-        const ok =await sendEvaluation();
-        setMovieList(movieList.slice(1, undefined));
+        await evaluate(false);
+    }
+
+    const evaluate = async (appreciate : boolean) => {
+        try{
+            setAppreciate(appreciate);
+            await sendEvaluation();
+            await removeEvaluatedMovie();
+        }
+        catch(_){
+            alert("Une erreur est survenue lors de l'évaluation du film. Veuillez réesayer")
+        }
     }
 
     const onSeen = () => {
@@ -77,21 +75,25 @@ export default function MovieProvider({children}: {children: ReactNode}) {
     }
 
     const sendEvaluation = async () => {
-        try{
-            await api.post("/movies", 
-                {
-                    movieId: movieList[0].id,
-                    seen,
-                    appreciate
-                }
-            );
+        await api.post("/movies", 
+            {
+                movieId: movieList[0].id,
+                seen,
+                appreciate
+            }
+        );
+    }
 
-            return true;
-        }   
-        catch(error) {
-            return false;
+    const removeEvaluatedMovie = async () => {
+        setMovieList(movieList.slice(1, undefined));
+
+        if(movieList.length <= 1){
+            await loadMovies();
         }
-        
+    }
+
+    if(!loading && movieList.length == 0){
+        return <div>Erreur de connection, veuillez recharger la page...</div>
     }
 
     return loading ? <h1>Loading ...</h1> : <MovieContext.Provider value={{
