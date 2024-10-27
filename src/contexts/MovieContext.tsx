@@ -48,7 +48,6 @@ export default function MovieProvider({children}: {children: ReactNode}) {
         }
         finally{
             setLoading(false);
-            
         }
     }
 
