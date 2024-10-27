@@ -33,43 +33,36 @@ export default function MovieProvider({children}: {children: ReactNode}) {
     const [appreciate, setAppreciate] = useState(false);
     
     useEffect(() => {
-        async function loadMovies() {
-            try{
-                setLoading(true);
-                
-                const suggestedMovies = await api.get("/movies");
-
-                
-                setMovieList(suggestedMovies.data);
-            }
-            catch(err : any){
-                console.log(err.response);
-            }
-            finally{
-                setLoading(false);
-                
-            }
-        }
-
         loadMovies();
     }, [])
 
-    /*const [movie] = useState({
-        title: 'Example Movie',
-        description: "Loreuuuum ipsum dolor sit amet consectetur adipisicing elit. Vel excepturi officiis nam esse explicabo. Quaerat ut consequuntur quo sapiente ex perferendis id consectetur doloremque cumque. Consequatur facilis aperiam iste et.",
-        imageUrl: 'https://placehold.co/300x450'
-    });*/
+    async function loadMovies() {
+        try{
+            setLoading(true);
+            
+            const suggestedMovies = await api.get("/movies");
+
+            setMovieList(suggestedMovies.data);
+        }
+        catch(err : any){
+            console.log(err.response);
+        }
+        finally{
+            setLoading(false);
+            
+        }
+    }
 
     const onLike = async () => {
         setAppreciate(true);
         const ok = await sendEvaluation();
-        setMovieList(movieList.slice(1, undefined));
+        await removeEvaluatedMovie();
     }
 
     const onDislike = async () => {
         setAppreciate(false);
         const ok =await sendEvaluation();
-        setMovieList(movieList.slice(1, undefined));
+        await removeEvaluatedMovie();
     }
 
     const onSeen = () => {
@@ -92,6 +85,14 @@ export default function MovieProvider({children}: {children: ReactNode}) {
             return false;
         }
         
+    }
+
+    const removeEvaluatedMovie = async () => {
+        setMovieList(movieList.slice(1, undefined));
+
+        if(movieList.length <= 1){
+            await loadMovies();
+        }
     }
 
     return loading ? <h1>Loading ...</h1> : <MovieContext.Provider value={{
