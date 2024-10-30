@@ -78,6 +78,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             birthdate
         });
 
+
         localStorage.setItem("user", JSON.stringify(response.data.user));
 
         fillData(response.data.user)

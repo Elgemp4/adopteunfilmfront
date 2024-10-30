@@ -53,7 +53,8 @@ api.interceptors.response.use(null, async (error: AxiosError) => {
     }
 
     try{
-        if(error.status == 401){
+        if(error.status == 401 && !requestConfig.url?.includes("retry")){
+
             const result = await api.post("/renew")
             if(result == undefined){
                 document.location = "/login";
@@ -62,6 +63,7 @@ api.interceptors.response.use(null, async (error: AxiosError) => {
 
             if(result.status == 200){
                 requestConfig.headers.Authorization = `Bearer ${token}`;
+                requestConfig.url = `${requestConfig.url}?retry`
                 return api(requestConfig);
             }
         }    
