@@ -1,11 +1,27 @@
+import { useNavigate } from "react-router-dom";
 import Button from "../components/forms/Button";
 import Input from "../components/forms/Input"
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../contexts/UserContext";
+import { FormEvent } from "react";
 
 export default function UserSettings() {
-    const { birthDate, firstname, lastname, setBirthDate, setFirstname, setLastname } = useAuth();
+    const { birthDate, firstname, lastname, setBirthDate, setFirstname, setLastname, changeSettings  } = useAuth();
 
-    return <form className="form-container">
+    const navigate = useNavigate();
+
+    const onSave = async (e : FormEvent) => {
+        e.preventDefault();
+        try{
+            await changeSettings();
+            navigate(-1);
+        }
+        catch(error){
+            alert("Une erreur est servenu, veuillez réassayer")
+        }
+    }
+
+
+    return <form onSubmit={(e) => onSave(e)} className="form-container">
             <Input
                 name="lastname"
                 title="Nom  : "
@@ -38,7 +54,7 @@ export default function UserSettings() {
                     name="submit"
                     text="Enregistrer"
                     key="save"
-                type="submit"/>
+                    type="submit"/>
             </div>
         </form>
 
