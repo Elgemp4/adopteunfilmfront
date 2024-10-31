@@ -1,6 +1,8 @@
 @import "./components/_tinder"
 @import "./components/_group_card"
 @import "./components/_movie_description"
+@import "./components/_button";
+@import "./components/_provider_card"
 
 .form-container
   @apply bg-white p-4 rounded shadow-md w-full max-w-xl
@@ -17,42 +19,6 @@
       &:focus
         @apply outline-none ring-2 ring-blue-500
 
-  .button-container
-    @apply flex items-center justify-between
-
-    &__vertical
-      @apply flex-col gap-4
-
-    .button
-      @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition-colors duration-200
-
-.provider-card
-  @apply outline outline-1 outline-gray-300 rounded-full text-center cursor-pointer transition-transform duration-200 flex items-center justify-center
-
-.provider-card.selected
-  @apply outline-blue-500 outline-2 transform scale-110
-
-.provider-logo-container
-  @apply w-16 h-16 flex items-center justify-center overflow-hidden rounded-full
-
-.provider-logo
-  @apply w-full h-full object-cover
-
-.user-providers
-
-  .button
-    @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition-colors duration-200
-
 .groups
-
   .group-list
     @apply flex flex-col space-y-4
-
-  .button-container
-    @apply flex items-center justify-between mt-4
-
-    .button
-      @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition-colors duration-200 mx-2
-
-
-

@@ -16,3 +16,19 @@
   &:hover
     @apply cursor-grab
 
+.preferencesButtons-container
+  @apply flex justify-around w-full mb-4
+
+  .dislike-button, .seen-button, .like-button
+    @apply mx-2
+
+
+.movie-container
+  @apply flex flex-col items-center justify-center
+
+.movie-image
+  @apply w-72 object-cover mb-4 relative
+
+.color-overlay
+  @apply absolute bg-slate-500 inset-0 z-10
+
