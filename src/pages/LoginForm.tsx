@@ -1,13 +1,12 @@
-import {useAuth} from '../contexts/UserContext.tsx';
+import {useUserContext} from '../contexts/UserContext.tsx';
 import {useNavigate} from 'react-router-dom';
 import Input from '../components/forms/Input';
 import Checkbox from '../components/forms/Checkbox';
 import ButtonContainer from "../components/forms/ButtonContainer.tsx";
 
 export default function LoginForm() {
-    const {email, setEmail, password, setPassword, stayLoggedIn, setStayLoggedIn, login: tryLogin} = useAuth();
+    const {email, setEmail, password, setPassword, stayLoggedIn, setStayLoggedIn, login} = useUserContext();
     const navigate = useNavigate();
-
 
     const handleLoginSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,9 +28,9 @@ export default function LoginForm() {
 
     const onLogin = async () => {
         try{
-            await tryLogin();
+            await login();
             alert('Connexion réussie!');
-            navigate('/providers');
+            navigate('/loggedin');
         }
         catch(_){
             alert('Erreur de connexion. Vérifiez votre email et votre mot de passe.');

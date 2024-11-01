@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../components/forms/Button";
 import Input from "../components/forms/Input"
-import { useAuth } from "../contexts/UserContext";
+import { useUserContext } from "../contexts/UserContext";
 import { FormEvent } from "react";
 
 export default function UserSettings() {
-    const { birthDate, firstname, lastname, setBirthDate, setFirstname, setLastname, changeSettings  } = useAuth();
+    const { birthDate, firstname, lastname, setBirthDate, setFirstname, setLastname, changeSettings  } = useUserContext();
 
     const navigate = useNavigate();
 

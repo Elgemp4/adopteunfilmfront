@@ -36,17 +36,17 @@ const api = axios.create({
     withCredentials: true
 })
 
-api.interceptors.response.use((response) => {
-    const token = response.data.token;
+api.interceptors.response.use(
+    (response) => {
+        const token = response.data.token;
 
-    if(token != undefined){
-        changeToken(token, false);
-    }
+        if(token != undefined){
+            changeToken(token, false);
+        }
 
-    return response;
-}, null)
-
-api.interceptors.response.use(null, async (error: AxiosError) => {
+        return response;
+    }, 
+    async (error: AxiosError) => {
     const requestConfig = error.config;
     if(requestConfig == undefined){
         return;
@@ -57,8 +57,7 @@ api.interceptors.response.use(null, async (error: AxiosError) => {
 
             const result = await api.post("/renew")
             if(result == undefined){
-                document.location = "/login";
-                return;
+                throw error;
             }
 
             if(result.status == 200){
@@ -68,12 +67,11 @@ api.interceptors.response.use(null, async (error: AxiosError) => {
             }
         }    
     }
-    catch(_){
+    catch(error){
+        throw error;
     }
     
-});
-
-
+})
 
 
 export default api;
