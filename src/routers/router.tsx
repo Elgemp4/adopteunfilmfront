@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LoginForm from '../pages/LoginForm';
 import RegisterForm from '../pages/RegisterForm';
-import UserProviders from '../components/UserProviders';
+import UserProviders from '../pages/UserProviders';
 import UserSettings from '../pages/UserSettings';
 import MovieTinder from '../pages/MovieTinder';
 import GroupList from '../pages/GroupList';

@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import api, { changeToken } from './api';
+import { use } from 'framer-motion/client';
 
 interface AuthContextType {
     isLoggedIn: boolean;
@@ -108,12 +109,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         const userString = localStorage.getItem("user");
 
         if(userString == undefined) return;
-
+        console.log(userString);
         const user = JSON.parse(userString);
 
         user.isFullyRegistered = true;
 
-        localStorage.setItem("user", user);
+        localStorage.setItem("user", JSON.stringify(user));
     }
 
     const fillData = (user : any) => {

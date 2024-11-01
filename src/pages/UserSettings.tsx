@@ -49,7 +49,8 @@ export default function UserSettings() {
                     name="provider"
                     text="Modifier fournisseurs"
                     key="provider"
-                    type="button"/>
+                    type="button"
+                    onClick={() => navigate("/providers")}/>
                 <Button
                     name="submit"
                     text="Enregistrer"
