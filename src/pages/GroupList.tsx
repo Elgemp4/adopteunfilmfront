@@ -1,20 +1,15 @@
 import GroupCard from "../components/GroupCard.tsx";
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import { useGroupContext } from "../contexts/GroupContext.tsx";
 import ButtonContainer from "../components/forms/ButtonContainer.tsx";
+import {useNavigate} from "react-router-dom";
 
 export default function GroupList() {
-    const [groups, setGroups] = useState([
-        { id: 1, name: 'Groupe 1' },
-        { id: 2, name: 'Groupe 2' },
-        { id: 3, name: 'Groupe 3' },
-    ]);
-
+    const groupContext = useGroupContext();
     const navigate = useNavigate();
 
-    const deleteGroup = (id: number) => {
-        setGroups(groups.filter(group => group.id !== id));
-    };
+    if (!groupContext) {
+        return <div>Loading...</div>;
+    }
 
     const handleCreateGroupClick = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,11 +24,11 @@ export default function GroupList() {
     return (
         <div className="groups">
             <div className="group-list">
-                {groups.map(group => (
+                {groupContext.groups.map(group => (
                     <GroupCard
-                        key={group.id}
-                        groupName={group.name}
-                        onDelete={() => deleteGroup(group.id)}
+                        key={group.group_id}
+                        group={group}
+                        onDelete={() => (group.group_id)}
                     />
                 ))}
             </div>
