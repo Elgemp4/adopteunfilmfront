@@ -15,7 +15,7 @@ export default function GroupCreate() {
 
     const [groupName, setGroupName] = useState("");
 
-    const handleSubmit = async (event: React.FormEvent) => {
+    const handleCreateGroup = async (event: React.FormEvent) => {
         event.preventDefault();
         await createGroup(groupName);
         setGroupName("");
@@ -23,7 +23,7 @@ export default function GroupCreate() {
     };
 
     return (
-        <form className="form-container" onSubmit={handleSubmit}>
+        <form className="form-container" onSubmit={handleCreateGroup}>
             <Input
                 title="Nom du groupe:"
                 type="text"

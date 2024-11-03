@@ -4,7 +4,7 @@ import api from "./api";
 interface GroupContextType {
     groups: GroupApiResponseType[];
     createGroup: (groupName: string) => Promise<void>;
-    joinGroup: (groupCode: number) => Promise<void>;
+    joinGroup: (groupCode: string) => Promise<void>;
     deleteGroup: (groupId: number) => Promise<void>;
 }
 
@@ -49,14 +49,19 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
         }
     };
 
-    const joinGroup = async (groupCode: number) => {
+    const joinGroup = async (groupCode: string) => {
         try {
             const response = await api.post("/groups/join", { code: groupCode });
+            setGroupList([...groupList, response.data.group]);
             console.log("Joined group:", response.data);
             alert("Groupe rejoint avec succès");
-        } catch (err: any) {
+        } catch (err: any) { //TODO : Meilleure gestion des erreurs
             console.log("Error joining group:", err.response);
-            alert("Erreur lors de la jointure du groupe");
+            if (err.response && err.response.data && err.response.data.message) {
+                alert(`Erreur: ${err.response.data.message}`);
+            } else {
+                alert("Erreur lors de la jointure du groupe");
+            }
         }
     };
 
