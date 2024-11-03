@@ -1,13 +1,13 @@
 import {useNavigate} from 'react-router-dom';
-import {useAuth} from '../contexts/AuthContext';
+import {useUserContext} from '../contexts/UserContext.tsx';
 import Input from '../components/forms/Input';
 import ButtonContainer from "../components/forms/ButtonContainer.tsx";
 
 export default function RegisterForm() {
     const {
         firstname, lastname, birthDate,
-        setFirstname, setLastname, setBirthDate, tryRegister
-    } = useAuth();
+        setFirstname, setLastname, setBirthDate, register: tryRegister
+    } = useUserContext();
 
     const navigate = useNavigate();
 

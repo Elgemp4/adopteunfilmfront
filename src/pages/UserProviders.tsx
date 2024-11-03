@@ -1,8 +1,9 @@
 import {useState} from 'react';
-import ProviderCardContainer from './ProviderCardContainer.tsx';
-import {useProviderContext} from "../contexts/ProviderContext";
+import ProviderCardContainer from '../components/ProviderCardContainer.tsx';
+import {useProviderContext} from "../contexts/ProviderContext.tsx";
 import {useNavigate} from 'react-router-dom';
-import ButtonContainer from "./forms/ButtonContainer.tsx";
+import ButtonContainer from "../components/forms/ButtonContainer.tsx";
+import { useUserContext } from '../contexts/UserContext.tsx';
 
 export default function UserProviders() {
     const navigate = useNavigate();
@@ -15,9 +16,19 @@ export default function UserProviders() {
 
     const {sendSelectedProviders} = providerContext;
 
+    const {setIsFullyRegistered} = useUserContext();
+
     const handleValidate = async () => {
-        await sendSelectedProviders(selectedProviderIds);
-        navigate('/film/1');
+        try{
+            await sendSelectedProviders(selectedProviderIds);
+            setIsFullyRegistered(true);
+            navigate('/movies');
+        }
+        catch(error){
+            console.log(error);
+            alert("Erreur de communication avec le serveur")
+        }
+        
     };
 
     return (
