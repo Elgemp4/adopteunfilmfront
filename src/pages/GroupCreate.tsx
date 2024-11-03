@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useGroupContext } from "../contexts/GroupContext.tsx";
 import Input from "../components/forms/Input.tsx";
 import ButtonContainer from "../components/forms/ButtonContainer.tsx";
+import {useNavigate} from "react-router-dom";
 
 export default function GroupCreate() {
     const groupContext = useGroupContext();
+    const navigate = useNavigate();
 
     if (groupContext == undefined) {
         throw new Error("Context undefined");
@@ -17,6 +19,7 @@ export default function GroupCreate() {
         event.preventDefault();
         await createGroup(groupName);
         setGroupName("");
+        navigate("/groups");
     };
 
     return (
@@ -26,7 +29,7 @@ export default function GroupCreate() {
                 type="text"
                 name="groupName"
                 value={groupName}
-                onChange={(e) => setGroupName(e.target.value)}
+                onValueChange={setGroupName}
             />
             <ButtonContainer
                 buttons={[

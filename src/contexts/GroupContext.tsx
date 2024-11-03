@@ -28,6 +28,7 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
                 setGroupList(response.data.groups);
             } catch (err: any) {
                 console.log("Error:", err.response);
+                alert("Erreur lors du chargement des groupes");
             } finally {
                 setLoading(false);
             }
@@ -40,8 +41,11 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
         try {
             const response = await api.post("/groups/create", { name: groupName });
             setGroupList([...groupList, response.data.group]);
+            console.log("Created group:", response.data);
+            alert("Groupe créé avec succès");
         } catch (err: any) {
             console.log("Error creating group:", err.response);
+            alert("Erreur lors de la création du groupe");
         }
     };
 
@@ -49,8 +53,10 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
         try {
             const response = await api.post("/groups/join", { code: groupCode });
             console.log("Joined group:", response.data);
+            alert("Groupe rejoint avec succès");
         } catch (err: any) {
             console.log("Error joining group:", err.response);
+            alert("Erreur lors de la jointure du groupe");
         }
     };
 
@@ -58,8 +64,10 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
         try {
             console.log("Deleting group:", groupId);
             setGroupList(groupList.filter(group => group.group_id !== groupId));
+            alert("Groupe supprimé avec succès");
         } catch (err: any) {
             console.log("Error deleting group:", err.response);
+            alert("Erreur lors de la suppression du groupe");
         }
     };
 

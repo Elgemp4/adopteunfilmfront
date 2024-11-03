@@ -13,12 +13,12 @@ export default function GroupList() {
 
     const handleCreateGroupClick = async (e: React.FormEvent) => {
         e.preventDefault();
-        navigate('/group/create');
+        navigate('/groups/create');
     };
 
     const handleJoinGroupClick = async (e: React.FormEvent) => {
         e.preventDefault();
-        navigate('/group/join');
+        navigate('/groups/join');
     };
 
     return (

@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import api, { changeToken } from './api';
-import { use } from 'framer-motion/client';
 
 interface AuthContextType {
     isLoggedIn: boolean;
