@@ -10,6 +10,7 @@ import GroupJoin from '../pages/GroupJoin';
 import GroupSettings from '../pages/GroupSettings';
 import GroupMovieChoice from '../pages/GroupMovieChoice';
 import ProviderDistributor from '../contexts/ProviderContext';
+import GroupDistributor from "../contexts/GroupContext.tsx";
 import Private from './Private';
 import SkipIfLoggedIn from './SkipIfLoggedIn';
 import PostLoginRedirection from '../pages/PostLoginRedirection';
@@ -31,11 +32,19 @@ export default function AppRouter() {
                 } />
                 <Route path="/settings" element={<Private><UserSettings /></Private>} />
                 <Route path="/movies" element={<Private><MovieTinder /></Private>} />
-                <Route path="/group" element={<Private><GroupList /></Private>} />
-                <Route path="/group/create" element={<Private><GroupCreate /></Private>} />
-                <Route path="/group/join" element={<Private><GroupJoin /></Private>} />
-                <Route path="/group/:idGroup" element={<Private><GroupSettings /></Private>} />
-                <Route path="/group/:idGroup/film" element={<Private><GroupMovieChoice /></Private>} />
+                <Route path="/groups/*" element={
+                    <Private>
+                        <GroupDistributor>
+                            <Routes>
+                                <Route path="" element={<GroupList />} />
+                                <Route path="create" element={<GroupCreate />} />
+                                <Route path="join" element={<GroupJoin />} />
+                                <Route path=":idGroup" element={<GroupSettings />} />
+                                <Route path=":idGroup/film" element={<GroupMovieChoice />} />
+                            </Routes>
+                        </GroupDistributor>
+                    </Private>
+                } />
             </Routes>
         </Router>
     );

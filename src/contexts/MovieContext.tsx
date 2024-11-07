@@ -1,6 +1,5 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import api from "./api";
-import { body, tr } from "framer-motion/client";
 
 
 interface MovieContextType{
