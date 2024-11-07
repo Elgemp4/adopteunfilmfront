@@ -3,7 +3,9 @@ import api from "./api";
 
 interface ProviderContextType {
     providers: ProviderApiResponseType[];
+    userProviders: ProviderApiResponseType[];
     sendSelectedProviders: (providerIds: number[]) => Promise<void>;
+    loadUserProviders: () => Promise<void>;
 }
 
 interface ProviderApiResponseType {
@@ -16,7 +18,9 @@ const ProviderContext = createContext<ProviderContextType | undefined>(undefined
 
 export default function ProviderDistributor({ children }: { children: ReactNode }) {
     const [providerList, setProviderList] = useState<ProviderApiResponseType[]>([]);
+    const [userProviderList, setUserProviderList] = useState<ProviderApiResponseType[]>([]);
     const [loading, setLoading] = useState(true);
+    const [userProvidersLoaded, setUserProvidersLoaded] = useState(false);
 
     useEffect(() => {
         async function loadProviders() {
@@ -34,9 +38,25 @@ export default function ProviderDistributor({ children }: { children: ReactNode 
         loadProviders();
     }, []);
 
+    useEffect(() => {
+        if (!userProvidersLoaded) {
+            loadUserProviders();
+        }
+    }, [userProvidersLoaded]);
+
+    const loadUserProviders = async () => {
+        try {
+            const response = await api.get("/providers/personal");
+            setUserProviderList(response.data.providers);
+            setUserProvidersLoaded(true);
+        } catch (err: any) {
+            console.log("Error loading user providers:", err.response);
+        }
+    };
+
     const sendSelectedProviders = async (providerIds: number[]) => {
         try {
-            const response = await api.post("/providers/personal", {providers: providerIds });
+            const response = await api.post("/providers/personal", { providers: providerIds });
             console.log("Selected providers sent successfully:", response.data);
         } catch (err: any) {
             console.log("Error sending selected providers:", err.response);
@@ -44,7 +64,7 @@ export default function ProviderDistributor({ children }: { children: ReactNode 
     };
 
     return loading ? <h1>Loading...</h1> : (
-        <ProviderContext.Provider value={{ providers: providerList, sendSelectedProviders }}>
+        <ProviderContext.Provider value={{ providers: providerList, sendSelectedProviders, userProviders: userProviderList, loadUserProviders }}>
             {children}
         </ProviderContext.Provider>
     );

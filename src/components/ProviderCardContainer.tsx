@@ -9,6 +9,16 @@ interface CircularSelectorProps {
 export default function ProviderCardContainer({ onSelectionChange }: CircularSelectorProps) {
     const [selected, setSelected] = useState<number[]>([]);
     const providerContext = useProviderContext();
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    useEffect(() => {
+        if (providerContext && !isLoaded) {
+            providerContext.loadUserProviders().then(() => {
+                setSelected(providerContext.userProviders.map(provider => provider.provider_id));
+                setIsLoaded(true);
+            });
+        }
+    }, [providerContext, isLoaded]);
 
     const handleSelect = (id: number) => {
         setSelected(prevSelected =>
