@@ -27,6 +27,16 @@ export function changeToken(newToken: string, stayConnected: boolean){
     api.defaults.headers['Authorization'] = `Bearer ${token}`;
 }
 
+export async function disconnect(){
+    console.log("b");
+    token = "";
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+    
+    const result = await api.post("/logout");
+    console.log(result);
+}
+
 
 const api = axios.create({
     baseURL: "http://localhost:3500",
@@ -51,7 +61,7 @@ api.interceptors.response.use(
     if(requestConfig == undefined){
         return;
     }
-
+    
     try{
         if(error.status == 401 && !requestConfig.url?.includes("retry")){
 

@@ -3,9 +3,10 @@ import Button from "../components/forms/Button";
 import Input from "../components/forms/Input"
 import { useUserContext } from "../contexts/UserContext";
 import { FormEvent } from "react";
+import { disconnect } from "../contexts/api";
 
 export default function UserSettings() {
-    const { birthDate, firstname, lastname, setBirthDate, setFirstname, setLastname, changeSettings  } = useUserContext();
+    const { birthDate, firstname, lastname, setBirthDate, setFirstname, setLastname, changeSettings, logout  } = useUserContext();
 
     const navigate = useNavigate();
 
@@ -51,6 +52,16 @@ export default function UserSettings() {
                     key="provider"
                     type="button"
                     onClick={() => navigate("/providers")}/>
+                <Button
+                    name="disconnect"
+                    text="Se déconnecter"
+                    key="disconnect"
+                    type="button"
+                    onClick={ async () => {
+                        await logout();
+                        navigate("/login");
+                    }}
+                />
                 <Button
                     name="submit"
                     text="Enregistrer"
