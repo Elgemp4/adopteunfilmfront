@@ -72,6 +72,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         });
 
         localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem("refreshToken", response.data.refreshToken);
         setIsLoggedIn(true);
         
         fillData(response.data.user);
@@ -88,6 +89,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         });
 
         localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem("refreshToken", response.data.refreshToken);
         setIsLoggedIn(true);
 
         fillData(response.data.user);
@@ -114,7 +116,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         const userString = localStorage.getItem("user");
 
         if(userString == undefined) return;
-        console.log(userString);
+        
         const user = JSON.parse(userString);
 
         user.isFullyRegistered = true;

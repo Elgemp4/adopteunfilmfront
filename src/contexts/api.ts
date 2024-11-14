@@ -30,6 +30,7 @@ export function changeToken(newToken: string, stayConnected: boolean){
 export async function disconnect(){
     token = "";
     localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken")
     sessionStorage.removeItem("token");
     
     await api.post("/logout");
@@ -62,8 +63,8 @@ api.interceptors.response.use(
     
     try{
         if(error.status == 401 && !requestConfig.url?.includes("retry")){
-
-            const result = await api.post("/renew")
+            const refreshToken = localStorage.getItem("refreshToken");
+            const result = await api.post("/renew", [{token, refreshToken}]);
             if(result == undefined){
                 throw error;
             }
