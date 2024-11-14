@@ -10,41 +10,44 @@ import GroupJoin from '../pages/GroupJoin';
 import GroupSettings from '../pages/GroupSettings';
 import GroupMovieChoice from '../pages/GroupMovieChoice';
 import ProviderDistributor from '../contexts/ProviderContext';
-import GroupDistributor from "../contexts/GroupContext.tsx";
+import GroupDistributor from "../contexts/GroupContext";
 import Private from './Private';
 import SkipIfLoggedIn from './SkipIfLoggedIn';
 import PostLoginRedirection from '../pages/PostLoginRedirection';
+import MainBody from '../components/MainBody';
 
 export default function AppRouter() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Navigate to="/login" />} />
-                <Route path="/login" element={<SkipIfLoggedIn><LoginForm /></SkipIfLoggedIn>} />
-                <Route path="/loggedin" element={<PostLoginRedirection/>}/>
-                <Route path="/register" element={<SkipIfLoggedIn><RegisterForm /></SkipIfLoggedIn>} />
-                <Route path="/providers" element={
-                    <Private>
-                        <ProviderDistributor>
-                            <UserProviders />
-                        </ProviderDistributor>
-                    </Private>
-                } />
-                <Route path="/settings" element={<Private><UserSettings /></Private>} />
-                <Route path="/movies" element={<Private><MovieTinder /></Private>} />
-                <Route path="/groups/*" element={
-                    <Private>
-                        <GroupDistributor>
-                            <Routes>
-                                <Route path="" element={<GroupList />} />
-                                <Route path="create" element={<GroupCreate />} />
-                                <Route path="join" element={<GroupJoin />} />
-                                <Route path=":idGroup" element={<GroupSettings />} />
-                                <Route path=":idGroup/film" element={<GroupMovieChoice />} />
-                            </Routes>
-                        </GroupDistributor>
-                    </Private>
-                } />
+                <Route path="/" element={<MainBody />}>
+                    <Route path="/" element={<Navigate to="/login" />} />
+                    <Route path="/login" element={<SkipIfLoggedIn><LoginForm /></SkipIfLoggedIn>} />
+                    <Route path="/loggedin" element={<PostLoginRedirection/>}/>
+                    <Route path="/register" element={<SkipIfLoggedIn><RegisterForm /></SkipIfLoggedIn>} />
+                    <Route path="/providers" element={
+                        <Private>
+                            <ProviderDistributor>
+                                <UserProviders />
+                            </ProviderDistributor>
+                        </Private>
+                    } />
+                    <Route path="/settings" element={<Private><UserSettings /></Private>} />
+                    <Route path="/movies" element={<Private><MovieTinder /></Private>} />
+                    <Route path="/groups/*" element={
+                        <Private>
+                            <GroupDistributor>
+                                <Routes>
+                                    <Route path="" element={<GroupList />} />
+                                    <Route path="create" element={<GroupCreate />} />
+                                    <Route path="join" element={<GroupJoin />} />
+                                    <Route path=":idGroup" element={<GroupSettings />} />
+                                    <Route path=":idGroup/film" element={<GroupMovieChoice />} />
+                                </Routes>
+                            </GroupDistributor>
+                        </Private>
+                    } />
+                </Route>
             </Routes>
         </Router>
     );
