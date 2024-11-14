@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import api, { changeToken } from './api';
+import api, { changeToken, disconnect } from './api';
 
 interface AuthContextType {
     isLoggedIn: boolean;
@@ -10,6 +10,7 @@ interface AuthContextType {
     lastname: string;
     birthDate: string;
     isFullyRegistered: boolean;
+    logout: () => Promise<void>;
     checkToken: () => Promise<void>;
     setIsFullyRegistered: (value: boolean) => void; 
     setIsLoggedIn: (logged: boolean) => void;
@@ -57,6 +58,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             setIsLoggedIn(false);
         }
         
+    }
+
+    const logout = async () => {
+        setIsLoggedIn(false);
+        await disconnect();
     }
 
     const login = async () => {
@@ -126,7 +132,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     return (
         <UserContext.Provider value={{ isLoggedIn, email, password, firstname, lastname, birthDate: birthdate, stayLoggedIn, isFullyRegistered,
-                                       checkToken, setIsLoggedIn, setEmail, setPassword, setFirstname, setLastname, setBirthDate, setStayLoggedIn, 
+                                       logout, checkToken, setIsLoggedIn, setEmail, setPassword, setFirstname, setLastname, setBirthDate, setStayLoggedIn, 
                                        setIsFullyRegistered, login, register, changeSettings }}>
             {children}
         </UserContext.Provider>
