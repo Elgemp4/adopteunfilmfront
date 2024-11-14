@@ -28,13 +28,11 @@ export function changeToken(newToken: string, stayConnected: boolean){
 }
 
 export async function disconnect(){
-    console.log("b");
     token = "";
     localStorage.removeItem("token");
     sessionStorage.removeItem("token");
     
-    const result = await api.post("/logout");
-    console.log(result);
+    await api.post("/logout");
 }
 
 
