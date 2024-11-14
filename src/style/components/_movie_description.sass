@@ -1,17 +1,8 @@
 .movie-info
-  @apply flex flex-col  w-72 text-center bg-white p-2 rounded shadow-md max-h-max px-6 h-28 overflow-hidden
-
-  &.expanded
-    @apply h-fit
+  @apply flex flex-col  w-72 text-center bg-white p-2 rounded shadow-md max-h-max px-6 overflow-scroll
 
   &__title
     @apply text-xl font-bold mb-4
 
   &__description
     @apply text-justify
-
-
-.expand-button
-  @apply bg-blue-500 text-white font-bold mb-3 py-1 px-2 rounded cursor-pointer transition-colors duration-200 self-end
-  &:hover
-    @apply bg-blue-700
