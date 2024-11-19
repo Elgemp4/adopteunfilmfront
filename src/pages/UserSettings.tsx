@@ -3,11 +3,11 @@ import Button from "../components/forms/Button";
 import Input from "../components/forms/Input"
 import { useUserContext } from "../contexts/UserContext";
 import { FormEvent } from "react";
-import { disconnect } from "../contexts/api";
+import { useDarkMode } from '../contexts/DarkModeContextProvider';
 
 export default function UserSettings() {
     const { birthDate, firstname, lastname, setBirthDate, setFirstname, setLastname, changeSettings, logout  } = useUserContext();
-
+    const { darkMode, toggleDarkMode } = useDarkMode();
     const navigate = useNavigate();
 
     const onSave = async (e : FormEvent) => {
@@ -47,6 +47,13 @@ export default function UserSettings() {
             />
             <div className="button-container button-container__vertical">
                 <Button
+                    name={"theme"}
+                    text={darkMode ? 'Thème clair' : 'Thème sombre'}
+                    key="theme"
+                    type="button"
+                    onClick={toggleDarkMode}
+                />
+                <Button
                     name="provider"
                     text="Modifier fournisseurs"
                     key="provider"
@@ -67,6 +74,7 @@ export default function UserSettings() {
                     text="Enregistrer"
                     key="save"
                     type="submit"/>
+
             </div>
         </form>
 
