@@ -1,0 +1,17 @@
+.users
+  @apply text-center max-h-full max-w-full
+
+.users-grid
+ @apply grid grid-cols-3 gap-4 my-8
+
+.user
+    &-card
+      @apply outline outline-2 outline-gray-300 rounded-full text-center cursor-pointer transition-transform duration-200 flex items-center justify-center
+      &.selected
+        @apply outline-blue-500 outline-4 transform scale-110
+
+    &-logo-container
+      @apply w-16 h-16 flex items-center justify-center overflow-hidden rounded-full
+
+    &-logo
+      @apply w-full h-full object-cover
