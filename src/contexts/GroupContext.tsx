@@ -7,11 +7,12 @@ interface GroupContextType {
     joinGroup: (groupCode: string) => Promise<void>;
     deleteGroup: (groupId: number) => Promise<void>;
     getUsersByGroupId: (groupId: number) => Promise<User[]>;
+    getGroupCodeById: (groupId: number) => Promise<string>;
 }
 
 export interface GroupApiResponseType {
     group_id: number;
-    group_code: string;
+    code: string;
     name: string;
 }
 
@@ -94,8 +95,20 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
         }
     };
 
+    const getGroupCodeById = async (groupId: number): Promise<string> => {
+        try {
+            const response = await api.get(`/groups/${groupId}/code`);
+            console.log("Group code:", response.data.code);
+            return response.data.code;
+        } catch (err: any) {
+            console.log("Error fetching group code:", err.response);
+            alert("Erreur lors du chargement du code du groupe");
+            return '';
+        }
+    };
+
     return loading ? <h1>Loading...</h1> : (
-        <GroupContext.Provider value={{ groups: groupList, createGroup, joinGroup, deleteGroup, getUsersByGroupId }}>
+        <GroupContext.Provider value={{ groups: groupList, createGroup, joinGroup, deleteGroup, getUsersByGroupId, getGroupCodeById }}>
             {children}
         </GroupContext.Provider>
     );
