@@ -1,30 +1,24 @@
+// src/components/UserCardContainer.tsx
 import { useState, useEffect } from 'react';
 import UserCard from './UserCard';
 
+interface User {
+    id: number;
+    firstname: string;
+    lastname: string;
+}
+
 interface UserCardContainerProps {
+    users: User[];
     onSelectionChange: (selectedIds: number[]) => void;
 }
 
-const staticUsers = [
-    { user_id: 1, first_name: 'John', last_name: 'Doe' },
-    { user_id: 2, first_name: 'Jane', last_name: 'Smith' },
-    { user_id: 3, first_name: 'Alice', last_name: 'Johnson' },
-    { user_id: 4, first_name: 'Alice', last_name: 'Johnson' },
-    { user_id: 5, first_name: 'Alice', last_name: 'Johnson' },
-    { user_id: 6, first_name: 'Alice', last_name: 'Johnson' },
-    { user_id: 7, first_name: 'Alice', last_name: 'Johnson' },
-    { user_id: 8, first_name: 'Alice', last_name: 'Johnson' },
-    { user_id: 9, first_name: 'Alice', last_name: 'Johnson' },
-    { user_id: 10, first_name: 'Alice', last_name: 'Johnson' }
-];
-
-export default function UserCardContainer({ onSelectionChange }: UserCardContainerProps) {
+export default function UserCardContainer({ users, onSelectionChange }: UserCardContainerProps) {
     const [selected, setSelected] = useState<number[]>([]);
 
-    // Met à jour la liste des IDs sélectionnés
     useEffect(() => {
         onSelectionChange(selected);
-    }, [selected, onSelectionChange]);
+    }, [selected, onSelectionChange, users]);
 
     const handleSelect = (id: number) => {
         setSelected(prevSelected =>
@@ -36,11 +30,11 @@ export default function UserCardContainer({ onSelectionChange }: UserCardContain
 
     return (
         <div className="users-grid">
-            {staticUsers.map(user => (
+            {users.map(user => (
                 <UserCard
-                    key={user.user_id}
+                    key={user.id} // Ensure each UserCard has a unique key
                     user={user}
-                    isSelected={selected.includes(user.user_id)}
+                    isSelected={selected.includes(user.id)}
                     onSelect={handleSelect}
                 />
             ))}
