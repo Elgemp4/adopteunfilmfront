@@ -1,4 +1,3 @@
-// src/components/UserCard.tsx
 interface UserCardProps {
     user: {
         id: number;

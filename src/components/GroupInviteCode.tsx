@@ -7,7 +7,7 @@ interface GroupInviteCodeProps {
 const GroupInviteCode: React.FC<GroupInviteCodeProps> = ({ inviteCode }) => {
     return (
         <div className="invite-code-container">
-            <p>Code d'invitation du groupe :</p>
+            <div>Code d'invitation du groupe :</div>
             <div className="invite-code">
                 {inviteCode}
             </div>

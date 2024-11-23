@@ -17,9 +17,9 @@ export interface GroupApiResponseType {
 }
 
 export interface User {
-    user_id: number;
-    first_name: string;
-    last_name: string;
+    id: number;
+    firstname: string;
+    lastname: string;
 }
 
 const GroupContext = createContext<GroupContextType | undefined>(undefined);

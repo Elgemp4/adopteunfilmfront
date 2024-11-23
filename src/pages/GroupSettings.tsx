@@ -1,4 +1,3 @@
-// src/pages/GroupSettings.tsx
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useGroupContext, User } from '../contexts/GroupContext';
@@ -42,7 +41,7 @@ export default function GroupSettings() {
         <div className="group-settings">
             <GroupInviteCode inviteCode={groupCode} />
             <UserCardContainer users={users} onSelectionChange={(selectedIds) => console.log(`Selected user IDs: ${selectedIds.join(', ')}`)} />
-            <ButtonContainer buttons={[{ text: "Valider", type: "button", name: "validate" }]} />
+            <ButtonContainer buttons={[{ text: "Valider", type: "button", name: "validate" }]} centered />
         </div>
     );
 }

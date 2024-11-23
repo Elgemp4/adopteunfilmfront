@@ -1,4 +1,3 @@
-// src/pages/GroupList.tsx
 import GroupCard from "../components/GroupCard.tsx";
 import { useGroupContext } from "../contexts/GroupContext.tsx";
 import ButtonContainer from "../components/forms/ButtonContainer.tsx";
@@ -12,13 +11,11 @@ export default function GroupList() {
         return <div>Loading...</div>;
     }
 
-    const handleCreateGroupClick = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleCreateGroupClick = () => {
         navigate('/groups/create');
     };
 
-    const handleJoinGroupClick = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleJoinGroupClick = () => {
         navigate('/groups/join');
     };
 
