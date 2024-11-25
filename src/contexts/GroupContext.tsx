@@ -1,4 +1,4 @@
-import {ReactNode, createContext, useContext, useState, useEffect} from "react";
+import { ReactNode, createContext, useContext, useState, useEffect } from "react";
 import api from "./api";
 
 interface GroupContextType {
@@ -6,12 +6,20 @@ interface GroupContextType {
     createGroup: (groupName: string) => Promise<void>;
     joinGroup: (groupCode: string) => Promise<void>;
     deleteGroup: (groupId: number) => Promise<void>;
+    getUsersByGroupId: (groupId: number) => Promise<User[]>;
+    getGroupCodeById: (groupId: number) => Promise<string>;
 }
 
-interface GroupApiResponseType {
+export interface GroupApiResponseType {
     group_id: number;
-    group_code: string;
+    code: string;
     name: string;
+}
+
+export interface User {
+    id: number;
+    firstname: string;
+    lastname: string;
 }
 
 const GroupContext = createContext<GroupContextType | undefined>(undefined);
@@ -55,7 +63,7 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
             setGroupList([...groupList, response.data.group]);
             console.log("Joined group:", response.data);
             alert("Groupe rejoint avec succès");
-        } catch (err: any) { //TODO : Meilleure gestion des erreurs
+        } catch (err: any) {
             console.log("Error joining group:", err.response);
             if (err.response && err.response.data && err.response.data.message) {
                 alert(`Erreur: ${err.response.data.message}`);
@@ -76,8 +84,31 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
         }
     };
 
+    const getUsersByGroupId = async (groupId: number) => {
+        try {
+            const response = await api.get(`/groups/${groupId}/users`);
+            return response.data.users;
+        } catch (err: any) {
+            console.log("Error fetching users:", err.response);
+            alert("Erreur lors du chargement des utilisateurs");
+            return [];
+        }
+    };
+
+    const getGroupCodeById = async (groupId: number): Promise<string> => {
+        try {
+            const response = await api.get(`/groups/${groupId}/code`);
+            console.log("Group code:", response.data.code);
+            return response.data.code;
+        } catch (err: any) {
+            console.log("Error fetching group code:", err.response);
+            alert("Erreur lors du chargement du code du groupe");
+            return '';
+        }
+    };
+
     return loading ? <h1>Loading...</h1> : (
-        <GroupContext.Provider value={{ groups: groupList, createGroup, joinGroup, deleteGroup }}>
+        <GroupContext.Provider value={{ groups: groupList, createGroup, joinGroup, deleteGroup, getUsersByGroupId, getGroupCodeById }}>
             {children}
         </GroupContext.Provider>
     );

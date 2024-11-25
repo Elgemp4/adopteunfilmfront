@@ -1,0 +1,14 @@
+.users-grid
+  @apply grid grid-cols-3 gap-4 my-8
+
+.user
+  &-card
+    @apply outline outline-2 outline-black rounded-full text-center cursor-pointer transition-transform duration-200 flex items-center justify-center w-16 h-16
+    &.selected
+      @apply outline-blue-500 outline-4 transform scale-110
+
+  &-logo-container
+    @apply w-16 h-16 flex items-center justify-center overflow-hidden rounded-full bg-white
+
+  &-logo
+    @apply w-full h-full object-cover flex items-center justify-center text-2xl font-bold

@@ -4,17 +4,25 @@ interface GroupCardProps {
         name: string;
     };
 
-    onDelete: (id: number) => void;
+    onClick: (id: number) => void;
+    //onDelete: (id: number) => void;
 }
 
-export default function GroupCard({ group, onDelete }: GroupCardProps) {
+export default function GroupCard({ group, onClick }: GroupCardProps) {
+    const handleGroupClick = () => {
+        onClick(group.group_id);
+    };
+
     return (
-        <div className="group-card">
+        <div className="group-card" onClick={handleGroupClick}>
             <div className="group-container">
                 <div className="group-name">{group.name}</div>
-                <button className="delete-group-button material-symbols-outlined"
-                        onClick={() => onDelete(group.group_id)}>delete
-                </button>
+                {/*<button className="delete-group-button material-symbols-outlined"*/}
+                {/*        onClick={(e) => {*/}
+                {/*            e.stopPropagation();*/}
+                {/*            onDelete(group.group_id);*/}
+                {/*        }}>delete*/}
+                {/*</button>*/}
             </div>
         </div>
     );

@@ -1,8 +1,7 @@
 import GroupCard from "../components/GroupCard.tsx";
 import { useGroupContext } from "../contexts/GroupContext.tsx";
 import ButtonContainer from "../components/forms/ButtonContainer.tsx";
-import {useNavigate} from "react-router-dom";
-import TopBar from "../components/TopBar.tsx";
+import { useNavigate } from "react-router-dom";
 
 export default function GroupList() {
     const groupContext = useGroupContext();
@@ -12,24 +11,26 @@ export default function GroupList() {
         return <div>Loading...</div>;
     }
 
-    const handleCreateGroupClick = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleCreateGroupClick = () => {
         navigate('/groups/create');
     };
 
-    const handleJoinGroupClick = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleJoinGroupClick = () => {
         navigate('/groups/join');
     };
 
-    return <>
+    const handleGroupClick = (groupId: number) => {
+        navigate(`/groups/${groupId}`);
+    };
+
+    return (
         <div className="groups">
             <div className="group-list">
                 {groupContext.groups.map(group => (
                     <GroupCard
                         key={group.group_id}
                         group={group}
-                        onDelete={() => (group.group_id)}
+                        onClick={() => handleGroupClick(group.group_id)}
                     />
                 ))}
             </div>
@@ -40,6 +41,5 @@ export default function GroupList() {
                 ]}
             />
         </div>
-    </>
-
+    );
 }
