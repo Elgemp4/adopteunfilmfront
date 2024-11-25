@@ -5,7 +5,11 @@ import api from "./api";
 interface MovieContextType{
     movie_image: string,
     movie_title: string,
+    movie_release_date: string,
+    movie_vote_avg: Number,
+    movie_vote_count: Number,
     movie_description: string,
+    movie_genres: Array<any>,
     like: () => void,
     dislike: () => void,
     seen: () => void
@@ -17,7 +21,10 @@ interface MovieApiResponseType{
     title: string,
     description: string,
     poster_path: string,
-    vote_avg: number
+    release_date: string,
+    genres: Array<any>,
+    vote_avg: number,
+    vote_count: number,
 }
 
 const MovieContext = createContext<MovieContextType|undefined>(undefined);
@@ -99,6 +106,10 @@ export default function MovieProvider({children}: {children: ReactNode}) {
         movie_image: movieList[0].poster_path,
         movie_title: movieList[0].title,
         movie_description: movieList[0].description,
+        movie_release_date: movieList[0].release_date,
+        movie_vote_avg: movieList[0].vote_avg,
+        movie_vote_count: movieList[0].vote_count,
+        movie_genres: movieList[0].genres,
         like: onLike, dislike: onDislike, seen: onSeen
     }}>
         {children}

@@ -1,8 +1,11 @@
 .movie-info
-  @apply flex flex-col  w-72 text-center bg-white p-2 rounded shadow-md max-h-max px-6 overflow-scroll
+  @apply flex flex-col  min-w-72 max-w-screen-sm sm:px-8 text-center bg-white p-2 rounded shadow-md max-h-max px-6 overflow-scroll mb-8 p-4
 
   &__title
     @apply text-xl font-bold mb-4
 
   &__description
     @apply text-justify
+
+.metadata-container
+  @apply flex items-start mb-4 justify-between
