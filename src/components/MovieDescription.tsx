@@ -1,5 +1,6 @@
 import { useMovieContext } from "../contexts/MovieContext";
 import MetaData from "./MetaData";
+import Tag from "./Tag";
 
 export default function MovieDescription() {
     const movieContext = useMovieContext();
@@ -20,6 +21,10 @@ export default function MovieDescription() {
             </div>
             <hr className="separator"/>
             <p className="movie-info__description">{movie_description}</p>
+            <hr className="separator" />
+            <div className="genre-tags">
+                {movie_genres.map((value) => <Tag value={value.name}/>)} 
+            </div>
         </div>
     </div>
 }
