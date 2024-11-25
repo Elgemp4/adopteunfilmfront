@@ -22,9 +22,9 @@ export default function EvaluationButtons() {
     };
 
 
-    return <div className="preferencesButtons-container">
-    <button className="dislike-button material-symbols-outlined" onClick={handleDislike}>thumb_down</button>
-    <button className="seen-button material-symbols-outlined" onClick={handleSeen}>visibility</button>
-    <button className="like-button material-symbols-outlined" onClick={handleLike}>thumb_up</button>
+    return <div className="preferences-buttons-container">
+    <button className="button button--dislike material-symbols-outlined" onClick={handleDislike}>thumb_down</button>
+    <button className="button button--seen material-symbols-outlined" onClick={handleSeen}>visibility</button>
+    <button className="button button--like material-symbols-outlined" onClick={handleLike}>thumb_up</button>
     </div>
 }
