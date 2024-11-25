@@ -9,12 +9,8 @@
   @apply bg-blue-500 text-white py-2 px-4 rounded cursor-pointer transition-colors duration-200
   margin-left: 1rem
 
-
 .movie-tinder
-  @apply flex flex-col items-center min-h-dvh overflow-scroll bg-gray-100 px-8 py-2 my-8 rounded-md
-
-  &:hover
-    @apply cursor-grab
+ @apply mt-24
 
 .preferencesButtons-container
   @apply flex justify-around w-full mb-4
@@ -28,6 +24,8 @@
 
 .movie-image
   @apply w-72 object-cover mb-4 relative
+  &:hover
+    @apply cursor-grab
 
 .color-overlay
   @apply absolute bg-slate-500 inset-0 z-10
