@@ -1,9 +1,5 @@
 @import "./_movie_description"
     
-.dislike-button, .seen-button, .like-button
-  @apply bg-red-500 text-white py-2 px-4 rounded cursor-pointer transition-colors duration-200
-  &:hover
-    @apply bg-red-700
 
 .settings-button, .groups-button
   @apply bg-blue-500 text-white py-2 px-4 rounded cursor-pointer transition-colors duration-200
@@ -12,8 +8,8 @@
 .movie-tinder
  @apply mt-24
 
-.preferencesButtons-container
-  @apply flex justify-around w-full mb-4
+.preferences-buttons-container
+  @apply flex justify-center w-full mb-4 gap-8
 
   .dislike-button, .seen-button, .like-button
     @apply mx-2
@@ -23,7 +19,7 @@
   @apply flex flex-col items-center justify-center
 
 .movie-image
-  @apply w-72 object-cover mb-4 relative
+  @apply w-72 object-cover mb-4 relative rounded-lg overflow-hidden
   &:hover
     @apply cursor-grab
 
