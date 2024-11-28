@@ -37,7 +37,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     const [stayLoggedIn, setStayLoggedIn] = useState(false);
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false); 
+    const [isLoggedIn, setIsLoggedIn] = useState(true); 
 
     useEffect(() => {
         checkToken();        

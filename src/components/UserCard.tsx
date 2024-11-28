@@ -1,15 +1,13 @@
+import { User } from "../contexts/GroupContext";
+
 interface UserCardProps {
-    user: {
-        id: number;
-        firstname: string;
-        lastname: string;
-    };
+    user: User;
     isSelected: boolean;
     onSelect: (id: number) => void;
 }
 
 export default function UserCard({ user, isSelected, onSelect }: UserCardProps) {
-    const initials = `${user.firstname.charAt(0).toUpperCase()}${user.lastname.charAt(0).toUpperCase()}`;
+    const initials = `${user.firstName.charAt(0).toUpperCase()}${user.lastName.charAt(0).toUpperCase()}`;
 
     return (
         <div

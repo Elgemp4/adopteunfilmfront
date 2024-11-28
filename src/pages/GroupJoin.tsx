@@ -3,6 +3,7 @@ import ButtonContainer from "../components/forms/ButtonContainer.tsx";
 import {useGroupContext} from "../contexts/GroupContext.tsx";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
+import Button from "../components/forms/Button.tsx";
 
 export default function GroupJoin() {
     const groupContext = useGroupContext();
@@ -32,10 +33,10 @@ export default function GroupJoin() {
                 value={groupCode}
                 onValueChange={setGroupCode}
             />
-            <ButtonContainer
-                buttons={[
-                    { text: "Rejoindre", type: "submit", name: "joinGroup" }
-                ]}
+            <Button
+                name="joinGroup"
+                text="Rejoindre le groupe"
+                type="submit"
             />
         </form>
     );
