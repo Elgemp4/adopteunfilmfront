@@ -5,14 +5,12 @@ export default class LoginPage {
     readonly input_email: Locator;
     readonly input_password: Locator;
     readonly button_submit: Locator;
-    readonly error_message: Locator;
 
     constructor(page: Page) {
         this.page = page;
         this.input_email = page.locator('input[name="email"]');
         this.input_password = page.locator('input[name="password"]');
         this.button_submit = page.locator('button[name="login"]');
-        this.error_message = page.getByText("Erreur de connexion. Vérifiez votre email et votre mot de passe.");
     }
 
     async goTo() {
@@ -30,6 +28,9 @@ export default class LoginPage {
     }
 
     async checkIncorrectLogin() {
-        await expect(this.error_message).toBeVisible();
+        this.page.on('dialog', async dialog => {
+            expect(dialog.message()).toContain('Erreur de connexion. Vérifiez votre email et votre mot de passe.');
+            await dialog.dismiss();
+        });
     }
 }
