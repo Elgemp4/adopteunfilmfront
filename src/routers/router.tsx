@@ -7,8 +7,8 @@ import MovieTinder from '../pages/MovieTinder';
 import GroupList from '../pages/GroupList';
 import GroupCreate from '../pages/GroupCreate';
 import GroupJoin from '../pages/GroupJoin';
-import GroupSettings from '../pages/GroupSettings';
-import GroupMovieChoice from '../pages/GroupMovieChoice';
+import GroupUserSelection from '../pages/GroupUserSelection';
+import GroupMovieSuggestion from '../pages/GroupMovieSuggestion';
 import ProviderDistributor from '../contexts/ProviderContext';
 import GroupDistributor from "../contexts/GroupContext";
 import Private from './Private';
@@ -41,8 +41,8 @@ export default function AppRouter() {
                                     <Route path="" element={<GroupList />} />
                                     <Route path="create" element={<GroupCreate />} />
                                     <Route path="join" element={<GroupJoin />} />
-                                    <Route path=":idGroup" element={<GroupSettings />} />
-                                    <Route path=":idGroup/film" element={<GroupMovieChoice />} />
+                                    <Route path=":idGroup" element={<GroupUserSelection />} />
+                                    <Route path=":idGroup/suggestions" element={<GroupMovieSuggestion />} />
                                 </Routes>
                             </GroupDistributor>
                         </Private>

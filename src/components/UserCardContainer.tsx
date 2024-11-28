@@ -2,11 +2,7 @@
 import { useState, useEffect } from 'react';
 import UserCard from './UserCard';
 
-interface User {
-    id: number;
-    firstname: string;
-    lastname: string;
-}
+import { User } from '../contexts/GroupContext';
 
 interface UserCardContainerProps {
     users: User[];
