@@ -26,7 +26,7 @@ export default function GroupList() {
     return (
         <div className="groups">
             <div className="group-list">
-                {groupContext.groups.map(group => (
+                {groupContext.groupList.map(group => (
                     <GroupCard
                         key={group.group_id}
                         group={group}
