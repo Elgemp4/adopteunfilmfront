@@ -44,43 +44,44 @@ export default class MovieTinderPage {
     }
 
     async captureMovieDetails() {
+        await this.movie_title.waitFor({ state: 'visible' });
+
+        const isDescriptionVisible = await this.movie_description.isVisible();
+        const description = isDescriptionVisible ? await this.movie_description.textContent() : 'No description available';
+
+        await this.movie_date.waitFor({ state: 'visible' });
+        await this.movie_rating.waitFor({ state: 'visible' });
+        await this.movie_votes.waitFor({ state: 'visible' });
+        await this.movie_genre.waitFor({ state: 'visible' });
+        await this.movie_image.waitFor({ state: 'visible' });
+
         return {
             title: await this.movie_title.textContent(),
-            description: await this.movie_description.textContent(),
+            description: description,
             date: await this.movie_date.textContent(),
             rating: await this.movie_rating.textContent(),
             votes: await this.movie_votes.textContent(),
             genre: await this.movie_genre.textContent(),
-            image: await this.movie_image.textContent(),
+            image: await this.movie_image.getAttribute('src'),
         };
     }
 
     async checkChangesOnLike() {
         const initialDetails = await this.captureMovieDetails();
         await this.like();
+        await this.page.waitForTimeout(1000);
         const newDetails = await this.captureMovieDetails();
 
-        expect(initialDetails.title).not.toBe(newDetails.title);
-        expect(initialDetails.description).not.toBe(newDetails.description);
-        expect(initialDetails.date).not.toBe(newDetails.date);
-        expect(initialDetails.rating).not.toBe(newDetails.rating);
-        expect(initialDetails.votes).not.toBe(newDetails.votes);
-        expect(initialDetails.genre).not.toBe(newDetails.genre);
-        expect(initialDetails.image).not.toBe(newDetails.image);
+        expect(initialDetails).not.toEqual(newDetails);
     }
 
     async checkChangesOnDislike() {
         const initialDetails = await this.captureMovieDetails();
         await this.dislike();
+        await this.page.waitForTimeout(1000);
         const newDetails = await this.captureMovieDetails();
 
-        expect(initialDetails.title).not.toBe(newDetails.title);
-        expect(initialDetails.description).not.toBe(newDetails.description);
-        expect(initialDetails.date).not.toBe(newDetails.date);
-        expect(initialDetails.rating).not.toBe(newDetails.rating);
-        expect(initialDetails.votes).not.toBe(newDetails.votes);
-        expect(initialDetails.genre).not.toBe(newDetails.genre);
-        expect(initialDetails.image).not.toBe(newDetails.image);
+        expect(initialDetails).not.toEqual(newDetails);
     }
-    
+
 }

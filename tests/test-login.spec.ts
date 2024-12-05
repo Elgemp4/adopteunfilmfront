@@ -1,6 +1,7 @@
 import {test} from '@playwright/test';
 import LoginPage from "./login";
 import RegisterPage from "./register";
+import MovieTinderPage from "./movies";
 
 function generateRandomString(length: number) {
     const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -49,4 +50,23 @@ test('test-register-fail', async ({page}) => {
     await loginPage.register(email, password);
     await registerPage.registerForm("", "Dek", "2000-01-01");
     await registerPage.checkIncorrectRegister();
+});
+
+test('test-like-movie', async ({page}) => {
+    const loginPage = new LoginPage(page);
+    const movieTinderPage = new MovieTinderPage(page);
+
+    await loginPage.goTo();
+    await loginPage.login("sebdek7@gmail.com", "0123");
+    await movieTinderPage.checkChangesOnLike();
+
+});
+
+test('test-dislike-movie', async ({page}) => {
+    const loginPage = new LoginPage(page);
+    const movieTinderPage = new MovieTinderPage(page);
+
+    await loginPage.goTo();
+    await loginPage.login("sebdek7@gmail.com", "0123");
+    await movieTinderPage.checkChangesOnDislike();
 });
