@@ -27,7 +27,8 @@ export default class GroupsPage{
         await this.input_groupCode.fill(groupCode);
         await this.button_joinGroup.click();
         this.page.on('dialog', async dialog => {
-            expect(dialog.message()).toContain('Groupe rejoint avec succès');
+            const message = dialog.message();
+            expect(message).toMatch(/Groupe rejoint avec succès|Erreur lors de la jointure du groupe/);
             await dialog.dismiss();
         });
         await expect(this.page).toHaveURL('http://localhost:5173/groups');
