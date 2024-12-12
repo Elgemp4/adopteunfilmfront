@@ -80,7 +80,7 @@ test('test-disconnect', async ({page}) => {
     await loginPage.goTo();
     await loginPage.login("sebdek7@gmail.com", "0123");
 
-    await settingsPage.GoTo();
+    await settingsPage.goTo();
     await settingsPage.checkDisconnect();
 
 });
@@ -92,7 +92,7 @@ test('test-theme', async ({page}) => {
     await loginPage.goTo();
     await loginPage.login("sebdek7@gmail.com", "0123");
 
-    await settingsPage.GoTo();
+    await settingsPage.goTo();
     await settingsPage.checkTheme();
 });
 
@@ -103,9 +103,9 @@ test('test-details', async ({page}) => {
     await loginPage.goTo();
     await loginPage.login("sebdek7@gmail.com", "0123");
 
-    await settingsPage.GoTo();
+    await settingsPage.goTo();
     await settingsPage.fillDetailsForm("Seb", "Dek", "2000-01-01");
-    await settingsPage.GoTo();
+    await settingsPage.goTo();
     await settingsPage.checkDetailsChanges("Seb", "Dek", "2000-01-01");
 });
 
@@ -128,5 +128,5 @@ test('test-join-group', async ({page}) => {
     await loginPage.login("sebdek7@gmail.com", "0123");
 
     await groupsPage.goTo();
-    await groupsPage.checkJoinGroup("");
+    await groupsPage.checkJoinGroup("pkNm1H");
 });

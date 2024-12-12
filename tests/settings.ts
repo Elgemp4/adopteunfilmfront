@@ -35,7 +35,7 @@ export default class SettingsPage{
 
     }
 
-    async GoTo() {
+    async goTo() {
         await this.page.waitForTimeout(1000);
         await this.page.goto('http://localhost:5173/settings');
     }

@@ -17,6 +17,7 @@ export default class GroupsPage{
     }
 
     async goTo() {
+        await this.page.waitForTimeout(1000);
         await this.page.goto('http://localhost:5173/groups');
     }
 
