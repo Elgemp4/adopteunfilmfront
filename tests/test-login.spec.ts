@@ -3,6 +3,7 @@ import LoginPage from "./login";
 import RegisterPage from "./register";
 import MovieTinderPage from "./movies";
 import SettingsPage from "./settings";
+import GroupsPage from "./groups";
 
 function generateRandomString(length: number) {
     const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -106,4 +107,26 @@ test('test-details', async ({page}) => {
     await settingsPage.fillDetailsForm("Seb", "Dek", "2000-01-01");
     await settingsPage.GoTo();
     await settingsPage.checkDetailsChanges("Seb", "Dek", "2000-01-01");
+});
+
+test('test-create-group', async ({page}) => {
+    const loginPage = new LoginPage(page);
+    const groupsPage = new GroupsPage(page);
+
+    await loginPage.goTo();
+    await loginPage.login("sebdek7@gmail.com", "0123");
+
+    await groupsPage.goTo();
+    await groupsPage.checkGroupCreation(generateRandomString(10));
+});
+
+test('test-join-group', async ({page}) => {
+    const loginPage = new LoginPage(page);
+    const groupsPage = new GroupsPage(page);
+
+    await loginPage.goTo();
+    await loginPage.login("sebdek7@gmail.com", "0123");
+
+    await groupsPage.goTo();
+    await groupsPage.checkJoinGroup("");
 });
