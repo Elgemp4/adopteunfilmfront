@@ -1,16 +1,21 @@
+import { useEffect } from "react";
 import { useGroupContext } from "../contexts/GroupContext";
 
 export default function GroupMovieSuggestion() {
 
     const context = useGroupContext();
 
+    useEffect(() => {
+        loadGroupSuggestedMovies();
+    });
+
     if(context === undefined) {
         return <h1>Loading...</h1>;
     }
 
-    const { selectedGroup, selectedUsers } = context;
-    console.log(selectedGroup);
-    console.log(selectedUsers);
+    const { selectedGroup, selectedUsers, loadGroupSuggestedMovies } = context;
+
+    
 
     return (
         <div>
