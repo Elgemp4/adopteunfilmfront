@@ -3,12 +3,12 @@
 
 .user
   &-card
-    @apply outline outline-2 outline-black rounded-full text-center cursor-pointer transition-transform duration-200 flex items-center justify-center w-16 h-16
+    @apply outline outline-2 outline-black rounded-full text-center cursor-pointer transition-transform duration-200 flex items-center justify-center max-w-16 max-h-16 aspect-square h-full
     &.selected
       @apply outline-blue-500 outline-4 transform scale-110
 
   &-logo-container
-    @apply w-16 h-16 flex items-center justify-center overflow-hidden rounded-full bg-white
+    @apply h-full w-full flex items-center justify-center overflow-hidden rounded-full bg-white
 
   &-logo
-    @apply w-full h-full object-cover flex items-center justify-center text-2xl font-bold
+    @apply w-full h-full object-cover flex items-center justify-center text-[80%] font-bold

@@ -8,6 +8,8 @@ interface GroupContextType {
     chooseGroup: (groupId: number) => void;
     selectedUsers: User[];
     chooseUsers: (userId: number[]) => void;
+
+    suggestedMovies: any[];
     
     createGroup: (groupName: string) => Promise<void>;
     joinGroup: (groupCode: string) => Promise<void>;
@@ -36,20 +38,18 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
 
     const [selectedGroup, setSelectedGroup] = useState<GroupApiResponseType>();
     const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
+    const [suggestedMovies, setSuggestedMovies] = useState<any[]>([]);
 
     const [loading, setLoading] = useState(true);
 
-    //Load groups from the API on page load
+
     useEffect(() => {
         async function loadGroups() {
             try {
                 setLoading(true);
                 const response = await api.get("/groups");
-                console.log("Response:", response.data.groups);
                 setGroupList(response.data.groups);
-                console.log("Groups loaded:", response.data.groups);
             } catch (err: any) {
-                console.log("Error:", err.response);
                 alert("Erreur lors du chargement des groupes");
             } finally {
                 setLoading(false);
@@ -115,7 +115,12 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
     const loadGroupSuggestedMovies = async (start: number) => {
         try {
             const response = await api.get(`/groups/${selectedGroup?.group_id}/suggestions?${selectedUsers.map(user => `u=${user.id}`).join("&")}&start=${start}`);
-            console.log("Group suggested movies:", response.data);
+
+            setSuggestedMovies((prevMovies) => {
+                const newMovies = response.data.filter((movie: any) => prevMovies.find((prevMovie: any) => prevMovie.movie.id === movie.movie.id) == null);
+                console.log(newMovies);
+                return [...prevMovies, ...newMovies];
+            });
         } catch (err: any) {
             console.log("Error loading group suggested movies:", err.response);
             alert("Erreur lors du chargement des films suggérés pour le groupe");
@@ -123,7 +128,7 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
     };
 
     return loading ? <h1>Loading...</h1> : (
-        <GroupContext.Provider value={{ selectedUsers, chooseUsers, loadGroupSuggestedMovies,
+        <GroupContext.Provider value={{ suggestedMovies, selectedUsers, chooseUsers, loadGroupSuggestedMovies,
                                         groupList, selectedGroup, chooseGroup,
                                         createGroup, joinGroup, deleteGroup }}>
             {children}

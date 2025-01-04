@@ -6,7 +6,7 @@ interface UserCardProps {
     onSelect: (id: number) => void;
 }
 
-export default function UserCard({ user, isSelected, onSelect }: UserCardProps) {
+export default function UserCard({ user, isSelected = false, onSelect = () => {} }: UserCardProps) {
     const initials = `${user.firstName.charAt(0).toUpperCase()}${user.lastName.charAt(0).toUpperCase()}`;
 
     return (

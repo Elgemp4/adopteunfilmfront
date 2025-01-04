@@ -1,32 +1,49 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useGroupContext } from "../contexts/GroupContext";
+import MovieCard from "../components/MovieCard";
 
 export default function GroupMovieSuggestion() {
-
     const context = useGroupContext();
 
+    const isInTriggerZone = useRef(false);
+
     useEffect(() => {
-        loadGroupSuggestedMovies(0);
-    });
+        context?.loadGroupSuggestedMovies(0);
+    }, []);
 
-    if(context === undefined) {
-        return <h1>Loading...</h1>;
-    }
-
-    const { selectedGroup, selectedUsers, loadGroupSuggestedMovies } = context;
-
-    return (
-        <div>
-            <h1>Movie Choice for {selectedGroup?.name}</h1>
-            <h2>Selected users:</h2>
-            <div className="selected-users">
-                {selectedUsers.map(user => (
-              user.firstName + user.lastName
-                ))}
-            </div>
-            <div className="movie-suggestions">
+    useEffect(() => {
+        const handleScroll = async () => {
+            const scrollTop = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+    
+            if(!isInTriggerZone.current && scrollTop + windowHeight >= documentHeight - 50){
+                isInTriggerZone.current = true;
                 
-            </div>
+                await context?.loadGroupSuggestedMovies(context?.suggestedMovies.length);
+            }
+            else{
+                isInTriggerZone.current = false;
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [context]);
+
+    console.log(context?.suggestedMovies.length);
+    return (
+        
+        <div className="movie-suggestions">
+            {context?.suggestedMovies.map(suggestion => {
+                const movie = suggestion.movie;
+                const users = suggestion.users;
+
+                return <MovieCard key={movie.id} movie={movie} users={users} />;
+            })}
         </div>
+        
     );
 }
