@@ -12,7 +12,7 @@ interface GroupContextType {
     createGroup: (groupName: string) => Promise<void>;
     joinGroup: (groupCode: string) => Promise<void>;
     deleteGroup: (groupId: number) => Promise<void>;
-    loadGroupSuggestedMovies: () => Promise<void>;
+    loadGroupSuggestedMovies: (start: number) => Promise<void>;
 }
 
 export interface GroupApiResponseType {
@@ -112,9 +112,9 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
         }
     };
 
-    const loadGroupSuggestedMovies = async () => {
+    const loadGroupSuggestedMovies = async (start: number) => {
         try {
-            const response = await api.get(`/groups/${selectedGroup?.group_id}/suggestions?${selectedUsers.map(user => `u=${user.id}`).join("&")}`);
+            const response = await api.get(`/groups/${selectedGroup?.group_id}/suggestions?${selectedUsers.map(user => `u=${user.id}`).join("&")}&start=${start}`);
             console.log("Group suggested movies:", response.data);
         } catch (err: any) {
             console.log("Error loading group suggested movies:", err.response);
