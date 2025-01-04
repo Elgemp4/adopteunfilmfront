@@ -15,7 +15,7 @@ export default function MovieDescription() {
         <div>
             <h3 className="movie-info__title">{movie_title}</h3>
             <div className="metadata-container">
-                <MetaData title="Date" value={movie_release_date.split("T")[0]}/>
+                <MetaData title="Date" value={movie_release_date?.split("T")[0]}/>
                 <MetaData title="Note" value={movie_vote_avg.toString()}/>
                 <MetaData title="Votes" value={movie_vote_count.toString()}/>
             </div>

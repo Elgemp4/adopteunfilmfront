@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useGroupContext, User } from '../contexts/GroupContext';
+import { useEffect} from 'react';
+import { useGroupContext } from '../contexts/GroupContext';
 import GroupInviteCode from '../components/GroupInviteCode';
 import UserCardContainer from '../components/UserCardContainer';
 import ButtonContainer from '../components/forms/ButtonContainer';
