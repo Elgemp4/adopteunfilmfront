@@ -12,8 +12,7 @@ export default function UserCard({ user, isSelected, onSelect }: UserCardProps) 
     return (
         <div
             className={`user-card ${isSelected ? 'selected' : ''}`}
-            onClick={() => onSelect(user.id)}
-        >
+            onClick={() => onSelect(user.id)}>
             <div className="user-logo-container">
                 <div className="user-logo">{initials}</div>
             </div>

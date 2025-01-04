@@ -4,12 +4,10 @@ import api from "./api";
 interface GroupContextType {
     groupList: GroupApiResponseType[];
 
-    selectedGroupId: number;
-    setSelectedGroupId: (groupId: number) => void;
-
-    selectedGroupName: string | undefined;
-    selectedGroupUsers: User[] | undefined;
-    selectedGroupCode: string | undefined
+    selectedGroup: GroupApiResponseType | undefined;
+    chooseGroup: (groupId: number) => void;
+    selectedUsers: User[];
+    chooseUsers: (userId: number[]) => void;
     
     createGroup: (groupName: string) => Promise<void>;
     joinGroup: (groupCode: string) => Promise<void>;
@@ -34,28 +32,11 @@ const GroupContext = createContext<GroupContextType | undefined>(undefined);
 
 export default function GroupDistributor({ children }: { children: ReactNode }) {
     const [groupList, setGroupList] = useState<GroupApiResponseType[]>([]);
-    const [selectedGroupId, setSelectedGroupId] = useState<number>(-1);
 
-    const [selectedGroupName, _setGroupName] = useState<string | undefined>(undefined);
-    const [selectedGroupUsers, _setUsers] = useState<User[] | undefined>(undefined);
-    const [selectedGroupCode, _setGroupCode] = useState<string | undefined>(undefined);
+    const [selectedGroup, setSelectedGroup] = useState<GroupApiResponseType>();
+    const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
 
     const [loading, setLoading] = useState(true);
-
-    // Update selected group data when selectedGroupId changes
-    useEffect(() => {
-        const group = groupList.find(group => group.group_id === selectedGroupId);
-
-        if(group === undefined){
-            _setUsers(undefined);
-            _setGroupCode(undefined);
-            return
-        }
-
-        _setUsers(group.users);
-        _setGroupCode(group.code);
-        _setGroupName(group.name);
-    }, [selectedGroupId, groupList]);
 
     //Load groups from the API on page load
     useEffect(() => {
@@ -116,9 +97,25 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
         }
     };
 
+    const chooseGroup = async(groupId: number) => {
+        const group = groupList.find(group => group.group_id === groupId);
+        if(group !== undefined) {
+            setSelectedGroup(group);
+        }
+    };
+
+    const chooseUsers = async(userId: number[]) => {
+        console.log(selectedGroup?.users);
+        const users = selectedGroup?.users.filter(user => userId.includes(user.id));
+        console.log(users);
+        if(users !== undefined) {
+            setSelectedUsers(users);
+        }
+    };
+
     return loading ? <h1>Loading...</h1> : (
-        <GroupContext.Provider value={{ selectedGroupId, setSelectedGroupId,  
-                                        groupList, selectedGroupName, selectedGroupCode, selectedGroupUsers,
+        <GroupContext.Provider value={{ selectedUsers, chooseUsers,
+                                        groupList, selectedGroup, chooseGroup,
                                         createGroup, joinGroup, deleteGroup }}>
             {children}
         </GroupContext.Provider>

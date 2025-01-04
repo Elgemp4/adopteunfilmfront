@@ -10,18 +10,20 @@ interface UserCardContainerProps {
 }
 
 export default function UserCardContainer({ users, onSelectionChange }: UserCardContainerProps) {
-    const [selected, setSelected] = useState<number[]>([]);
+    const [selected, _setSelected] = useState<number[]>([]);
 
-    useEffect(() => {
-        onSelectionChange(selected);
-    }, [selected, onSelectionChange, users]);
+    const setSelected = (selectedIds: number[]) => {
+        _setSelected(selectedIds);
+        onSelectionChange(selectedIds);
+    }
 
     const handleSelect = (id: number) => {
-        setSelected(prevSelected =>
-            prevSelected.includes(id)
-                ? prevSelected.filter(selectedId => selectedId !== id)
-                : [...prevSelected, id]
-        );
+       if(selected.includes(id)){
+            setSelected(selected.filter(i => i !== id)); //If user is already selected, remove it
+       }
+       else{
+            setSelected([...selected, id]); //If user is not selected, add it
+       }
     };
 
     return (

@@ -61,24 +61,21 @@ api.interceptors.response.use(
         return;
     }
     
-    try{
-        if(error.status == 401 && !requestConfig.url?.includes("retry")){
-            const refreshToken = localStorage.getItem("refreshToken");
-            const result = await api.post("/renew", [{token, refreshToken}]);
-            if(result == undefined){
-                throw error;
-            }
 
-            if(result.status == 200){
-                requestConfig.headers.Authorization = `Bearer ${token}`;
-                requestConfig.url = `${requestConfig.url}?retry`
-                return api(requestConfig);
-            }
-        }    
-    }
-    catch(error){
-        throw error;
-    }
+    if(error.status == 401 && !requestConfig.url?.includes("retry")){
+        const refreshToken = localStorage.getItem("refreshToken");
+        const result = await api.post("/renew", [{token, refreshToken}]);
+        if(result == undefined){
+            throw error;
+        }
+
+        if(result.status == 200){
+            requestConfig.headers.Authorization = `Bearer ${token}`;
+            requestConfig.url = `${requestConfig.url}?retry`
+            return api(requestConfig);
+        }
+    }    
+
     
 })
 
