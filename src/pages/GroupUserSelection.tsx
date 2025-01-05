@@ -25,7 +25,7 @@ export default function GroupUserSelection() {
         return <div>Loading...</div>
     }
 
-    const {chooseGroup, selectedGroup, chooseUsers} = groupContext;
+    const {chooseGroup, selectedGroup, chooseUsers, selectedUsersId} = groupContext;
 
     if (!selectedGroup) {
         return <div>Loading...</div>;
@@ -36,7 +36,7 @@ export default function GroupUserSelection() {
             <GroupInviteCode inviteCode={selectedGroup.code} />
             <UserCardContainer users={selectedGroup.users} onSelectionChange={(selectedIds) => chooseUsers(selectedIds)} />
             <ButtonContainer buttons={[{ text: "Valider", type: "button", name: "validate", onClick: () => {
-                navigate(`/groups/${idGroup}/suggestions`);
+                navigate(`/groups/${idGroup}/suggestions/${selectedUsersId.join(',')}`);
             }}]} />
         </div>
     );

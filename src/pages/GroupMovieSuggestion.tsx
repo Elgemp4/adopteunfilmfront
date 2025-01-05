@@ -1,15 +1,30 @@
 import { useEffect, useRef } from "react";
 import { useGroupContext } from "../contexts/GroupContext";
 import MovieCard from "../components/MovieCard";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function GroupMovieSuggestion() {
     const context = useGroupContext();
 
     const isInTriggerZone = useRef(false);
 
+    const { idGroup, idUsers } = useParams<{ idGroup: string, idUsers: string}>();
+
+    const groupContext = useGroupContext();
+    const navigate = useNavigate();
+
+    //Set the id of the selected group
     useEffect(() => {
-        context?.loadGroupSuggestedMovies(0);
-    }, []);
+        if(idGroup == undefined || idUsers == undefined){
+            return;
+        }
+        async function load(group : string, users : string) {
+            context?.chooseGroup(parseInt(group));
+            context?.chooseUsers(users.split(',').map(id => parseInt(id)));
+        }
+        load(idGroup, idUsers);
+
+    }, [idGroup]);
 
     useEffect(() => {
         const handleScroll = async () => {

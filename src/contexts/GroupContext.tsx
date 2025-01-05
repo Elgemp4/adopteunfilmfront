@@ -6,7 +6,7 @@ interface GroupContextType {
 
     selectedGroup: GroupApiResponseType | undefined;
     chooseGroup: (groupId: number) => void;
-    selectedUsers: User[];
+    selectedUsersId: number[];
     chooseUsers: (userId: number[]) => void;
 
     suggestedMovies: any[];
@@ -37,10 +37,14 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
     const [groupList, setGroupList] = useState<GroupApiResponseType[]>([]);
 
     const [selectedGroup, setSelectedGroup] = useState<GroupApiResponseType>();
-    const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
+    const [selectedUsersId, setSelectedUsersId] = useState<number[]>([]);
     const [suggestedMovies, setSuggestedMovies] = useState<any[]>([]);
 
     const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        loadGroupSuggestedMovies(0);
+    }, [selectedGroup, selectedUsersId]);
 
 
     useEffect(() => {
@@ -98,27 +102,36 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
         }
     };
 
-    const chooseGroup = async(groupId: number) => {
+    const chooseGroup = (groupId: number) => {
         const group = groupList.find(group => group.group_id === groupId);
         if(group !== undefined) {
             setSelectedGroup(group);
         }
     };
 
-    const chooseUsers = async(userId: number[]) => {
-        const users = selectedGroup?.users.filter(user => userId.includes(user.id));
-        if(users !== undefined) {
-            setSelectedUsers(users);
-        }
+    const chooseUsers = (usersId: number[]) => {
+        setSelectedUsersId(usersId);
     };
 
     const loadGroupSuggestedMovies = async (start: number) => {
+        if (!selectedGroup) {
+            return;
+        }
+        if (!selectedUsersId || selectedUsersId.length === 0) {
+            return;
+        }
+
+        console.log("Loading group suggested movies:", selectedGroup, selectedUsersId);
+
         try {
-            const response = await api.get(`/groups/${selectedGroup?.group_id}/suggestions?${selectedUsers.map(user => `u=${user.id}`).join("&")}&start=${start}`);
+            const response = await api.get(`/groups/${selectedGroup?.group_id}/suggestions?${selectedUsersId.map(id => `u=${id}`).join("&")}&start=${start}`);
 
             setSuggestedMovies((prevMovies) => {
+                if(start === 0) {
+                    return response.data;
+                }
+
                 const newMovies = response.data.filter((movie: any) => prevMovies.find((prevMovie: any) => prevMovie.movie.id === movie.movie.id) == null);
-                console.log(newMovies);
                 return [...prevMovies, ...newMovies];
             });
         } catch (err: any) {
@@ -128,7 +141,7 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
     };
 
     return loading ? <h1>Loading...</h1> : (
-        <GroupContext.Provider value={{ suggestedMovies, selectedUsers, chooseUsers, loadGroupSuggestedMovies,
+        <GroupContext.Provider value={{ suggestedMovies, selectedUsersId, chooseUsers, loadGroupSuggestedMovies,
                                         groupList, selectedGroup, chooseGroup,
                                         createGroup, joinGroup, deleteGroup }}>
             {children}
