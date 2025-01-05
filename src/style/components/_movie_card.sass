@@ -2,7 +2,7 @@
     @apply flex flex-col bg-white rounded-lg shadow-md overflow-hidden my-4
 
     &__title
-        @apply text-xl font-semibold px-4 py-4 self-center
+        @apply text-xl font-semibold px-4 py-4 self-center text-center max-w-[450px]
 
     &__info
         @apply flex items-center justify-between p-4 text-white
@@ -11,7 +11,7 @@
         @apply text-sm font-semibold
 
     &__main
-        @apply flex flex-col gap-4 relative
+        @apply flex flex-col gap-4 relative 
 
         &:hover
             @apply cursor-pointer 
@@ -23,7 +23,7 @@
         @apply absolute top-2 right-2 bg-yellow-400 text-black p-2 rounded-full
 
     &__image
-        @apply w-[450px] aspect-auto
+        @apply max-w-[450px] aspect-auto w-full
 
     &__info
         @apply absolute left-0 right-0 bottom-0 min-h-[33%] z-10 opacity-0 transition-opacity duration-300 bg-gray-800 flex flex-col p-4 items-center justify-start
@@ -42,4 +42,4 @@
         
 
 .movie-suggestions
-    @apply mt-20 flex gap-8 flex-col
+    @apply mx-2 mt-20  flex gap-8 flex-col
