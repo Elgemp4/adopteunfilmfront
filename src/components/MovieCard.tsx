@@ -3,11 +3,11 @@ import { User } from "../contexts/GroupContext";
 import UserCard from "./UserCard";
 import Button from "./forms/Button";
 
-export default function MovieCard({ movie, users } : { movie: any, users: any }) {
+export default function MovieCard({ movie, users, onSeen } : { movie: any, users: any, onSeen: () => void }) {
     const [isInfoVisible, setInfoVisible] = useState(false);
 
     const toggleInfo = () => {
-        setInfoVisible(!isInfoVisible);
+        setInfoVisible(!isInfoVisible); 
     };
 
     return <div className="movie-card">
@@ -24,6 +24,6 @@ export default function MovieCard({ movie, users } : { movie: any, users: any })
                     <h4 className="movie-card__subtitle">Liked by</h4>
                     {users.map((user: User) => <UserCard user={user} isSelected={false} onSelect={() => {}}/>)}
                 </div>
-                <Button name="Seen" text="Mark as seen" onClick={() => {}}/>
+                <Button name="Seen" text="Mark as seen" onClick={onSeen}/>
             </div>;
 }
