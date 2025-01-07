@@ -15,6 +15,7 @@ interface GroupContextType {
     joinGroup: (groupCode: string) => Promise<void>;
     deleteGroup: (groupId: number) => Promise<void>;
     loadGroupSuggestedMovies: (start: number) => Promise<void>;
+    setSeen: (movieId: number) => Promise<void>;
 }
 
 export interface GroupApiResponseType {
@@ -124,7 +125,7 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
         console.log("Loading group suggested movies:", selectedGroup, selectedUsersId);
 
         try {
-            const response = await api.get(`/groups/${selectedGroup?.group_id}/suggestions?${selectedUsersId.map(id => `u=${id}`).join("&")}&start=${start}`);
+            const response = await api.get(`/groups/${selectedGroup?.group_id}/suggestions/${start}?${selectedUsersId.map(id => `u=${id}`).join("&")}`);
 
             setSuggestedMovies((prevMovies) => {
                 if(start === 0) {
@@ -140,9 +141,23 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
         }
     };
 
+    const setSeen = async (movieId: number) => {
+        if (!selectedGroup || !selectedUsersId || selectedUsersId.length === 0) {    
+            return;
+        }
+
+        try {
+            await api.post(`/groups/${selectedGroup?.group_id}/seen/${movieId}?${selectedUsersId.map(id => `u=${id}`).join("&")}`);
+            setSuggestedMovies(suggestedMovies.filter(movie => movie.movie.id !== movieId));
+        } catch (err: any) {
+            console.log("Error setting movie as seen:", err.response);
+            alert("Erreur lors du marquage du film comme vu");
+        }
+    };
+
     return loading ? <h1>Loading...</h1> : (
         <GroupContext.Provider value={{ suggestedMovies, selectedUsersId, chooseUsers, loadGroupSuggestedMovies,
-                                        groupList, selectedGroup, chooseGroup,
+                                        groupList, selectedGroup, chooseGroup, setSeen,
                                         createGroup, joinGroup, deleteGroup }}>
             {children}
         </GroupContext.Provider>
