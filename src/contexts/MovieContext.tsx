@@ -68,6 +68,7 @@ export default function MovieProvider({children}: {children: ReactNode}) {
     const evaluate = async (appreciate : boolean) => {
         try{
             setAppreciate(appreciate);
+            console.log("Appreciate", appreciate);
             await sendEvaluation();
             await removeEvaluatedMovie();
         }
@@ -77,10 +78,11 @@ export default function MovieProvider({children}: {children: ReactNode}) {
     }
 
     const onSeen = () => {
-        setSeen(seen);
+        setSeen(!seen);
     }
 
     const sendEvaluation = async () => {
+        console.log(`Sending evaluation: Title: ${movieList[0].title}, Seen: ${seen}, Appreciate: ${appreciate}`);
         await api.post("/movies", 
             {
                 movieId: movieList[0].id,
@@ -91,6 +93,7 @@ export default function MovieProvider({children}: {children: ReactNode}) {
     }
 
     const removeEvaluatedMovie = async () => {
+        setSeen(false);
         setMovieList(movieList.slice(1, undefined));
 
         if(movieList.length <= 1){
