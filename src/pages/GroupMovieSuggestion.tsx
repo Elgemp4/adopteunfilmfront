@@ -48,7 +48,6 @@ export default function GroupMovieSuggestion() {
         };
     }, [context]);
 
-    console.log(context?.suggestedMovies);
     return (
         
         <div className="movie-suggestions">
@@ -56,7 +55,9 @@ export default function GroupMovieSuggestion() {
                 const movie = suggestion.movie;
                 const users = suggestion.users;
 
-                return <MovieCard key={movie.id} movie={movie} users={users} />;
+                return <MovieCard key={movie.id} movie={movie} users={users} onSeen={() => {
+                    context?.setSeen(movie.id);
+                }} />;
             })}
         </div>
         
