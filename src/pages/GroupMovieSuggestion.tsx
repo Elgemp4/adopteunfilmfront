@@ -48,7 +48,7 @@ export default function GroupMovieSuggestion() {
         };
     }, [context]);
 
-    console.log(context?.suggestedMovies.length);
+    console.log(context?.suggestedMovies);
     return (
         
         <div className="movie-suggestions">

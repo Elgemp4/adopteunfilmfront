@@ -12,8 +12,8 @@ export default function MovieCard({ movie, users } : { movie: any, users: any })
 
     return <div className="movie-card">
                 <h1 className="movie-card__title">{movie.title}</h1>
-                <div className="movie-card__main">
-                    <img className="movie-card__image" key={movie.id} src={movie.poster_path} alt={movie.title} onClick={() => toggleInfo()} />
+                <div className="movie-card__main" onClick={() => toggleInfo()}>
+                    <img className="movie-card__image" key={movie.id} src={movie.poster_path} alt={movie.title}  />
                     <div className="movie-card__vote-avg">{movie.vote_avg}/10</div>
                     <div className={`movie-card__info ${isInfoVisible ? "visible" : ""}`}>
                         <h4 className="movie-card__description_title">Description</h4>
