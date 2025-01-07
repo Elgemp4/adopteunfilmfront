@@ -42,7 +42,7 @@ export default function AppRouter() {
                                     <Route path="create" element={<GroupCreate />} />
                                     <Route path="join" element={<GroupJoin />} />
                                     <Route path=":idGroup" element={<GroupUserSelection />} />
-                                    <Route path=":idGroup/suggestions" element={<GroupMovieSuggestion />} />
+                                    <Route path=":idGroup/suggestions/:idUsers" element={<GroupMovieSuggestion />} />
                                 </Routes>
                             </GroupDistributor>
                         </Private>

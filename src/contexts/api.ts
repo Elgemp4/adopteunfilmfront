@@ -12,17 +12,9 @@ if(sessionToken != null) {
     token = sessionToken;
 }
 
-export function changeToken(newToken: string, stayConnected: boolean){
+export function changeToken(newToken: string){
     token = newToken
-    
-    if(stayConnected){
-        localStorage.setItem("token", newToken);
-        sessionStorage.removeItem("token");
-    }
-    else{
-        sessionStorage.setItem("token", newToken) 
-        localStorage.removeItem("token");   
-    }
+    localStorage.setItem("token", newToken);
 
     api.defaults.headers['Authorization'] = `Bearer ${token}`;
 }
@@ -30,8 +22,8 @@ export function changeToken(newToken: string, stayConnected: boolean){
 export async function disconnect(){
     token = "";
     localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken")
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("token");
     
     await api.post("/logout");
 }
@@ -50,7 +42,7 @@ api.interceptors.response.use(
         const token = response.data.token;
 
         if(token != undefined){
-            changeToken(token, false);
+            changeToken(token);
         }
 
         return response;
@@ -61,26 +53,22 @@ api.interceptors.response.use(
         return;
     }
     
-    try{
-        if(error.status == 401 && !requestConfig.url?.includes("retry")){
-            const refreshToken = localStorage.getItem("refreshToken");
-            const result = await api.post("/renew", [{token, refreshToken}]);
-            if(result == undefined){
-                throw error;
-            }
 
-            if(result.status == 200){
-                requestConfig.headers.Authorization = `Bearer ${token}`;
-                requestConfig.url = `${requestConfig.url}?retry`
-                return api(requestConfig);
-            }
-        }    
-    }
-    catch(error){
-        throw error;
-    }
-    
-})
+    if(error.status == 401 && !requestConfig.url?.includes("retry")){
+        const refreshToken = localStorage.getItem("refreshToken");
+        console.log("Refresh token:", refreshToken);
+        const result = await api.post("/renew", {token, refreshToken});
+        if(result == undefined){
+            throw error;
+        }
+
+        if(result.status == 200){
+            requestConfig.headers.Authorization = `Bearer ${token}`;
+            requestConfig.url = `${requestConfig.url}?retry`
+            return api(requestConfig);
+        }
+    }    
+});
 
 
 export default api;

@@ -6,14 +6,13 @@ interface UserCardProps {
     onSelect: (id: number) => void;
 }
 
-export default function UserCard({ user, isSelected, onSelect }: UserCardProps) {
+export default function UserCard({ user, isSelected = false, onSelect = () => {} }: UserCardProps) {
     const initials = `${user.firstName.charAt(0).toUpperCase()}${user.lastName.charAt(0).toUpperCase()}`;
 
     return (
         <div
             className={`user-card ${isSelected ? 'selected' : ''}`}
-            onClick={() => onSelect(user.id)}
-        >
+            onClick={() => onSelect(user.id)}>
             <div className="user-logo-container">
                 <div className="user-logo">{initials}</div>
             </div>
