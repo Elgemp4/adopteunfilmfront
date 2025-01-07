@@ -39,7 +39,7 @@ export default function EvaluationButtons() {
             }`}
             onClick={handleSeen}
         >
-            {isSeenActive ? "visibility_off" : "visibility"}
+            {isSeenActive ? "visibility" : "visibility_off"}
         </button>
         <button className="button button--like material-symbols-outlined" onClick={handleLike}>thumb_up</button>
     </div>
