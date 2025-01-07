@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import LoginForm from '../pages/LoginForm';
 import RegisterForm from '../pages/RegisterForm';
 import UserProviders from '../pages/UserProviders';
@@ -13,18 +13,18 @@ import ProviderDistributor from '../contexts/ProviderContext';
 import GroupDistributor from "../contexts/GroupContext";
 import Private from './Private';
 import SkipIfLoggedIn from './SkipIfLoggedIn';
-import PostLoginRedirection from '../pages/PostLoginRedirection';
 import MainBody from '../components/MainBody';
+import PostLoginRedirection from "../pages/PostLoginRedirection.tsx";
 
 export default function AppRouter() {
     return (
         <Router>
             <Routes>
                 <Route path="/" element={<MainBody />}>
-                    <Route path="/" element={<Navigate to="/login" />} />
-                    <Route path="/login" element={<SkipIfLoggedIn><LoginForm /></SkipIfLoggedIn>} />
-                    <Route path="/loggedin" element={<PostLoginRedirection/>}/>
+                    <Route path="/" element={<SkipIfLoggedIn><LoginForm/></SkipIfLoggedIn>} />
+                    <Route path="/login" element={<SkipIfLoggedIn><LoginForm/></SkipIfLoggedIn>} />
                     <Route path="/register" element={<SkipIfLoggedIn><RegisterForm /></SkipIfLoggedIn>} />
+                    <Route path="/loggedin" element={<PostLoginRedirection />} />
                     <Route path="/providers" element={
                         <Private>
                             <ProviderDistributor>
