@@ -13,11 +13,12 @@ export default function TopBar() {
     return (
         <nav className="top-bar">
             <Button
-                name='settings'
-                text='Settings'
-                key={'settings'}
-                onClick={() => navigate("/settings")}
-                className="settings-button material-symbols-outlined" />
+                name='movieTinder'
+                text='Movie'
+                key={'movie'}
+                onClick={() => navigate("/movies")}
+                className="movie-tinder-button material-symbols-outlined"
+            />
             <Button
                 name='groups'
                 text='Groups'
@@ -25,12 +26,11 @@ export default function TopBar() {
                 onClick={() => navigate("/groups")}
                 className="groups-button material-symbols-outlined"/>
             <Button
-                name='movieTinder'
-                text='Movie'
-                key={'movie'}
-                onClick={() => navigate("/movies")}
-                className="movie-tinder-button material-symbols-outlined"
-            />
+                name='settings'
+                text='Settings'
+                key={'settings'}
+                onClick={() => navigate("/settings")}
+                className="settings-button material-symbols-outlined" />
         </nav>
     );
 }

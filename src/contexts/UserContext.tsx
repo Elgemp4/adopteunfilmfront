@@ -3,7 +3,6 @@ import api, { changeToken, disconnect } from './api';
 
 interface AuthContextType {
     isLoggedIn: boolean;
-    stayLoggedIn: boolean;
     email: string;
     password: string;
     firstname: string;
@@ -12,14 +11,13 @@ interface AuthContextType {
     isFullyRegistered: boolean;
     logout: () => Promise<void>;
     checkToken: () => Promise<void>;
-    setIsFullyRegistered: (value: boolean) => void; 
+    setIsFullyRegistered: (value: boolean) => void;
     setIsLoggedIn: (logged: boolean) => void;
     setEmail: (email: string) => void;
     setPassword: (password: string) => void;
     setFirstname: (firstname: string) => void;
     setLastname: (lastname: string) => void;
     setBirthDate: (birthDate: string) => void;
-    setStayLoggedIn: (newValue: boolean) => void;
     login: () => Promise<void>;
     register: () => Promise<void>;
     changeSettings: () => Promise<void>;
@@ -35,12 +33,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [birthdate, setBirthDate] = useState('')
     const [isFullyRegistered, _setIsFullyRegistered] = useState(false);
 
-    const [stayLoggedIn, setStayLoggedIn] = useState(false);
-
-    const [isLoggedIn, setIsLoggedIn] = useState(true); 
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     useEffect(() => {
-        checkToken();        
+        checkToken();
     }, [])
 
     async function checkToken() {
@@ -55,9 +51,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setIsLoggedIn(true)
         }
         catch(error){
+            console.error("Token check failed:", error);
             setIsLoggedIn(false);
         }
-        
+
     }
 
     const logout = async () => {
@@ -70,13 +67,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             email,
             password
         });
-
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("refreshToken", response.data.refreshToken);
         setIsLoggedIn(true);
-        
+
         fillData(response.data.user);
-        changeToken(response.data.token, stayLoggedIn);
+        changeToken(response.data.token);
     }
 
     const register = async () => {
@@ -87,14 +83,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             lastname,
             birthdate
         });
-
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("refreshToken", response.data.refreshToken);
         setIsLoggedIn(true);
 
         fillData(response.data.user);
 
-        changeToken(response.data.token, stayLoggedIn);
+        changeToken(response.data.token);
     }
 
     const changeSettings = async() => {
@@ -103,7 +98,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             lastname,
             birthdate
         });
-
 
         localStorage.setItem("user", JSON.stringify(response.data.user));
 
@@ -116,7 +110,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         const userString = localStorage.getItem("user");
 
         if(userString == undefined) return;
-        
+
         const user = JSON.parse(userString);
 
         user.isFullyRegistered = true;
@@ -133,8 +127,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
 
     return (
-        <UserContext.Provider value={{ isLoggedIn, email, password, firstname, lastname, birthDate: birthdate, stayLoggedIn, isFullyRegistered,
-                                       logout, checkToken, setIsLoggedIn, setEmail, setPassword, setFirstname, setLastname, setBirthDate, setStayLoggedIn, 
+        <UserContext.Provider value={{ isLoggedIn, email, password, firstname, lastname, birthDate: birthdate, isFullyRegistered,
+                                       logout, checkToken, setIsLoggedIn, setEmail, setPassword, setFirstname, setLastname, setBirthDate,
                                        setIsFullyRegistered, login, register, changeSettings }}>
             {children}
         </UserContext.Provider>

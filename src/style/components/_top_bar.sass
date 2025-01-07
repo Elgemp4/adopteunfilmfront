@@ -1,6 +1,13 @@
-/* src/style/components/_top_bar.sass */
 .top-bar
   @apply flex justify-around p-4 bg-gray-800 text-white fixed top-0 w-full z-50
-  .movie-tinder-button
+
+  // Espacement par défaut pour les boutons
+  .movie-tinder-button, .groups-button, .settings-button
     @apply bg-blue-500 text-white py-2 px-4 rounded cursor-pointer transition-colors duration-200
-    margin-left: 1rem
+    margin: 0 0.5rem
+
+  // Réduction de l'espacement pour les écrans de bureau
+  @media (min-width: 1024px) // Taille d'écran typique pour un PC
+    justify-content: space-evenly // Espacement uniforme entre tous les boutons
+    .movie-tinder-button, .groups-button, .settings-button
+      margin: 0 0.2rem // Réduction maximale des marges entre les boutons

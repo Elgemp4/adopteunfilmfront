@@ -36,7 +36,7 @@ export default function MovieProvider({children}: {children: ReactNode}) {
     const [loading, setLoading] = useState(true);
 
     const [seen, setSeen] = useState(false);
-    const [appreciate, setAppreciate] = useState(false);
+    const [, setAppreciate] = useState(false);
     
     useEffect(() => {
         loadMovies();
@@ -65,32 +65,32 @@ export default function MovieProvider({children}: {children: ReactNode}) {
         await evaluate(false);
     }
 
-    const evaluate = async (appreciate : boolean) => {
-        try{
-            setAppreciate(appreciate);
-            await sendEvaluation();
+    const evaluate = async (appreciateValue: boolean) => {
+        try {
+            setAppreciate(appreciateValue);
+            await sendEvaluation(appreciateValue); // Passez la nouvelle valeur directement
             await removeEvaluatedMovie();
+        } catch (_) {
+            alert("Une erreur est survenue lors de l'évaluation du film. Veuillez réessayer");
         }
-        catch(_){
-            alert("Une erreur est survenue lors de l'évaluation du film. Veuillez réesayer")
-        }
-    }
+    };
+
 
     const onSeen = () => {
-        setSeen(!onSeen);
+        setSeen(!seen);
     }
 
-    const sendEvaluation = async () => {
-        await api.post("/movies", 
-            {
-                movieId: movieList[0].id,
-                seen,
-                appreciate
-            }
-        );
-    }
+    const sendEvaluation = async (appreciateValue: boolean) => {
+        await api.post("/movies", {
+            movieId: movieList[0].id,
+            seen,
+            appreciate: appreciateValue,
+        });
+    };
+
 
     const removeEvaluatedMovie = async () => {
+        setSeen(false);
         setMovieList(movieList.slice(1, undefined));
 
         if(movieList.length <= 1){
