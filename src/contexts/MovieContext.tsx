@@ -77,7 +77,7 @@ export default function MovieProvider({children}: {children: ReactNode}) {
     }
 
     const onSeen = () => {
-        setSeen(!onSeen);
+        setSeen(seen);
     }
 
     const sendEvaluation = async () => {
