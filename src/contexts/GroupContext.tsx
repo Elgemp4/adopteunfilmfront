@@ -86,7 +86,7 @@ export default function GroupDistributor({ children }: { children: ReactNode }) 
             if (err.response && err.response.data && err.response.data.message) {
                 alert(`Erreur: ${err.response.data.message}`);
             } else {
-                alert("Erreur lors de la jointure du groupe");
+                alert("Erreur lors de la jointure du groupe"); //TODO: Erreur pour le code invalide, erreur pour le groupe déjà rejoint, erreur générale
             }
         }
     };

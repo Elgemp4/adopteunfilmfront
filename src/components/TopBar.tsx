@@ -1,8 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import Button from './forms/Button';
+import { useUserContext } from '../contexts/UserContext';
 
 export default function TopBar() {
     const navigate = useNavigate();
+    const { isLoggedIn } = useUserContext();
+
+    if (!isLoggedIn) {
+        return null;
+    }
 
     return (
         <nav className="top-bar">
