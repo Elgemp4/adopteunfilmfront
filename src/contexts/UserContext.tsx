@@ -3,7 +3,6 @@ import api, { changeToken, disconnect } from './api';
 
 interface AuthContextType {
     isLoggedIn: boolean;
-    stayLoggedIn: boolean;
     email: string;
     password: string;
     firstname: string;
@@ -19,7 +18,6 @@ interface AuthContextType {
     setFirstname: (firstname: string) => void;
     setLastname: (lastname: string) => void;
     setBirthDate: (birthDate: string) => void;
-    setStayLoggedIn: (newValue: boolean) => void;
     login: () => Promise<void>;
     register: () => Promise<void>;
     changeSettings: () => Promise<void>;
@@ -34,8 +32,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [lastname, setLastname] = useState('');
     const [birthdate, setBirthDate] = useState('')
     const [isFullyRegistered, _setIsFullyRegistered] = useState(false);
-
-    const [stayLoggedIn, setStayLoggedIn] = useState(false);
 
     const [isLoggedIn, setIsLoggedIn] = useState(true); 
 
@@ -76,7 +72,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setIsLoggedIn(true);
         
         fillData(response.data.user);
-        changeToken(response.data.token, stayLoggedIn);
+        changeToken(response.data.token);
     }
 
     const register = async () => {
@@ -94,7 +90,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
         fillData(response.data.user);
 
-        changeToken(response.data.token, stayLoggedIn);
+        changeToken(response.data.token);
     }
 
     const changeSettings = async() => {
@@ -133,8 +129,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
 
     return (
-        <UserContext.Provider value={{ isLoggedIn, email, password, firstname, lastname, birthDate: birthdate, stayLoggedIn, isFullyRegistered,
-                                       logout, checkToken, setIsLoggedIn, setEmail, setPassword, setFirstname, setLastname, setBirthDate, setStayLoggedIn, 
+        <UserContext.Provider value={{ isLoggedIn, email, password, firstname, lastname, birthDate: birthdate, isFullyRegistered,
+                                       logout, checkToken, setIsLoggedIn, setEmail, setPassword, setFirstname, setLastname, setBirthDate,
                                        setIsFullyRegistered, login, register, changeSettings }}>
             {children}
         </UserContext.Provider>

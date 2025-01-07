@@ -1,11 +1,10 @@
 import {useUserContext} from '../contexts/UserContext.tsx';
 import {useNavigate} from 'react-router-dom';
 import Input from '../components/forms/Input';
-import Checkbox from '../components/forms/Checkbox';
 import ButtonContainer from "../components/forms/ButtonContainer.tsx";
 
 export default function LoginForm() {
-    const {email, setEmail, password, setPassword, stayLoggedIn, setStayLoggedIn, login} = useUserContext();
+    const {email, setEmail, password, setPassword, login} = useUserContext();
     const navigate = useNavigate();
 
     const handleLoginSubmit = async (e: React.FormEvent) => {
@@ -55,10 +54,6 @@ export default function LoginForm() {
                 type="password"
                 value={password}
                 onValueChange={setPassword}/>
-            <Checkbox
-                title='Rester connecté'
-                value={stayLoggedIn}
-                onChange={setStayLoggedIn}/>
             <ButtonContainer
                 buttons={[
                     {text: "Se connecter", type: "submit", name: "login"},
