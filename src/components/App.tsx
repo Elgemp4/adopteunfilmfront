@@ -1,9 +1,11 @@
-function App() {
-  return (
-    <>
-      <h1 className="title">Test cool</h1>
-    </>
-  )
-}
+import AppRouter from '../routers/router';
 
-export default App
+import { DarkModeProvider } from '../contexts/DarkModeContextProvider';
+
+export default function App() {
+    return (
+        <DarkModeProvider>
+            <AppRouter />
+        </DarkModeProvider>
+    );
+}

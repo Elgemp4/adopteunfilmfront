@@ -1,0 +1,33 @@
+@import "./components/_tinder"
+@import "./components/_group_card"
+@import "./components/_movie_description"
+@import "./components/_button"
+@import "./components/_provider_card"
+@import "./components/_top_bar"
+@import "./components/group_settings"
+@import "./components/_metadata"
+@import "./components/_tag"
+@import "./components/_movie_card"
+
+.form-container
+  @apply bg-white p-4 rounded shadow-md w-full max-w-xl
+
+  .input-container
+    @apply mb-4
+
+    .label
+      @apply block text-gray-700 text-sm font-bold
+
+    .input
+      @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight mt-2 font-normal
+
+      &:focus
+        @apply outline-none ring-2 ring-blue-500
+
+.groups
+  .group-list
+    @apply flex flex-col space-y-4
+  .button-container
+    @apply mt-2
+    .button
+      @apply m-1
