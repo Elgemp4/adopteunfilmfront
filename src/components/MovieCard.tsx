@@ -10,7 +10,7 @@ export default function MovieCard({ movie, users, onSeen } : { movie: any, users
         setInfoVisible(!isInfoVisible); 
     };
 
-    return <div className="movie-card">
+    return <div className="movie-card" id={"movie-card-" + movie.id}>
                 <h1 className="movie-card__title">{movie.title}</h1>
                 <div className="movie-card__main" onClick={() => toggleInfo()}>
                     <img className="movie-card__image" key={movie.id} src={movie.poster_path} alt={movie.title}  />
@@ -24,6 +24,6 @@ export default function MovieCard({ movie, users, onSeen } : { movie: any, users
                     <h4 className="movie-card__subtitle">Liked by</h4>
                     {users.map((user: User) => <UserCard user={user} isSelected={false} onSelect={() => {}}/>)}
                 </div>
-                <Button name="Seen" text="Mark as seen" onClick={onSeen}/>
+                <Button className="seen" name="Seen" text="Mark as seen" onClick={onSeen}/>
             </div>;
 }

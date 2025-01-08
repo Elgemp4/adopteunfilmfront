@@ -5,10 +5,11 @@ import MovieTinderPage from "./movies";
 import SettingsPage from "./settings";
 import GroupsPage from "./groups";
 import ProvidersPage from "./providers";
+import MovieSuggestion from './movie_suggestion';
 
 async function loginDetails(loginPage: LoginPage) {
     await loginPage.goTo();
-    await loginPage.login("sebdek7@gmail.com", "0123");
+    await loginPage.login("marquegniesemilien@gmail.com ", "password");
 }
 
 function generateRandomString(length: number) {
@@ -67,6 +68,13 @@ test.describe('Authenticated Tests', () => {
         const groupsPage = new GroupsPage(page);
         await groupsPage.goTo();
         await groupsPage.checkJoinGroup("pkNm1H");
+    });
+
+    test('see-movie-suggestions', async ({ page }) => {        
+        const movie_suggestion = new MovieSuggestion(page); 
+        await movie_suggestion.goTo();
+        await movie_suggestion.checkIfContainsCards();
+        await movie_suggestion.checkHasSeen();
     });
 
     test('test-provider-selection', async ({ page }) => {
